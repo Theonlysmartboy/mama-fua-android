@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="areas">
+        <item>Ngong</item>
+        <item>Kiambu</item>
+        <item>Westlands</item>
+        <item>Kiserian</item>
+        <item>Matasia</item>
+        <item>Bondeni</item>
+        <item>Kibiko</item>
+        <item>46</item>
+    </string-array>
+</resources>

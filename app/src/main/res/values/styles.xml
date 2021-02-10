@@ -1,0 +1,47 @@
+<!--
+  ~ Copyright 2018 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- To see how these attributes are used, please visit https://material.io/develop/android/theming/color/ -->
+    <style name="Base.Theme.Sunflower" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/mamafua_green_500</item>
+        <item name="colorOnPrimary">@color/mamafua_yellow_500</item>
+        <item name="colorPrimaryDark">@color/mamafua_green_700</item>
+        <item name="colorOnSurface">@color/mamafua_black</item>
+        <item name="colorAccent">@color/mamafua_green_700</item>
+        <item name="colorSurface">@color/mamafua_gray_50</item>
+        <item name="colorSecondary">@color/mamafua_yellow_500</item>
+        <item name="android:colorBackground">@color/mamafua_green_500</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:navigationBarColor">@color/mamafua_green_500</item>
+
+<!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
+
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+    </style>
+
+    <style name="Theme.Sunflower" parent="Base.Theme.Sunflower"/>
+
+    <style name="WhiteOutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="rippleColor">@color/white</item>
+    </style>
+
+</resources>

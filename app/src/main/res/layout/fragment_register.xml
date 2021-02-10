@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    tools:context=".ui.auth.LoginFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#67000000"
+        app:layout_constraintHeight_percent=".4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="48dp"
+        android:paddingTop="48dp"
+        android:paddingEnd="48dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_uchiwa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/username"
+            app:boxStrokeColor="@android:color/white"
+            app:hintTextColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".45">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tetName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/email"
+            app:boxStrokeColor="@android:color/white"
+            app:hintTextColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/tilName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tetEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/password"
+            app:boxStrokeColor="@android:color/white"
+            app:hintTextColor="@android:color/white"
+            app:layout_constraintEnd_toStartOf="@id/tilConfirm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilEmail"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tetPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionNext"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilConfirm"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/confirm"
+            app:boxStrokeColor="@android:color/white"
+            app:hintTextColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tilPassword"
+            app:layout_constraintTop_toBottomOf="@id/tilEmail"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tetConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/butRegister"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/create_account"
+            android:textColor="@android:color/white"
+            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lavLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/butRegister"
+            app:layout_constraintEnd_toEndOf="@id/butRegister"
+            app:layout_constraintStart_toStartOf="@id/butRegister"
+            app:layout_constraintTop_toTopOf="@id/butRegister"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvForgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/forgot_password"
+            android:textColor="?attr/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/butRegister" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/already_a_member"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".42"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvForgot" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/login"
+            android:textColor="?attr/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvNew"
+            app:layout_constraintTop_toBottomOf="@id/tvForgot" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

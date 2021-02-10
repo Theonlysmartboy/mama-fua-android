@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cdBouquet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="4dp"
+    app:contentPadding="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivBouquet"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_service"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvbName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:fontFamily="@font/poppins_semibold"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/ivBouquet"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvbPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/ivBouquet"
+            app:layout_constraintTop_toBottomOf="@id/tvbName" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clOps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="6dp"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ivMinus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_selected_red"
+                android:padding="3dp"
+                android:src="@drawable/ic_minus"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/itvCount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/itvCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_0"
+                app:layout_constraintBottom_toBottomOf="@id/ivPlus"
+                app:layout_constraintEnd_toStartOf="@id/ivMinus"
+                app:layout_constraintStart_toEndOf="@id/ivPlus"
+                app:layout_constraintTop_toTopOf="@id/ivPlus" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ivPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_selected_green"
+                android:padding="3dp"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/itvCount"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".65" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

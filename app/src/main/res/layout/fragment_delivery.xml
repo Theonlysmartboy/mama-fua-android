@@ -1,0 +1,56 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="72dp">
+
+    <!--    <com.google.android.material.button.MaterialButton-->
+    <!--        android:id="@+id/butManual"-->
+    <!--        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="4dp"-->
+    <!--        android:layout_marginEnd="4dp"-->
+    <!--        android:drawablePadding="6dp"-->
+    <!--        android:padding="4dp"-->
+    <!--        android:text="@string/manual"-->
+    <!--        android:textColor="@android:color/white"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/rvResidential"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/butMachine"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <com.google.android.material.button.MaterialButton-->
+    <!--        android:id="@+id/butMachine"-->
+    <!--        style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="4dp"-->
+    <!--        android:layout_marginEnd="4dp"-->
+    <!--        android:drawablePadding="6dp"-->
+    <!--        android:padding="4dp"-->
+    <!--        android:text="@string/machine"-->
+    <!--        android:textColor="@android:color/white"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/butManual"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <org.tridzen.mamafua.utils.base.GridRecyclerView
+        android:id="@+id/rvResidential"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/grid_animation"
+        android:paddingBottom="72dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavItemized"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/another" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

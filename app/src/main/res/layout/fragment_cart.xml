@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.launcher.post.prepare.cart.CartFragment">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavEmptyCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/empty"
+        app:lottie_scale=".7" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvEmptyCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:gravity="center"
+        android:text="@string/empty_cart"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/fabEmpty"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lavEmptyCart" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        android:tint="@android:color/white"
+        app:backgroundTint="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:useCompatPadding="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        tools:itemCount="4"
+        tools:listitem="@layout/row_i" />
+</androidx.constraintlayout.widget.ConstraintLayout>

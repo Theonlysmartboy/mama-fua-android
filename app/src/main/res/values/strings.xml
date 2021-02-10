@@ -1,0 +1,102 @@
+<!--
+  ~ Copyright 2018 Google LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <!-- Resources that do not require translation -->
+    <string name="app_name" translatable="false">Mama Fua</string>
+
+    <!-- Translatable resources -->
+
+    <!-- String plurals and their related prefix / suffix strings -->
+
+    <!-- Accessibility -->
+    <string name="hail">Hail</string>
+    <string name="cancel">Cancel</string>
+    <string name="apply_to_work_with_us">Apply to work with us</string>
+    <string name="submit">Submit</string>
+    <string name="i_agree"><![CDATA[I agree to the terms & conditions]]></string>
+    <string name="phone_number">Phone number</string>
+    <string name="last_name">Last name</string>
+    <string name="first_name">First name</string>
+    <string name="onboarding_slide1_title">Create an account</string>
+    <string name="onboarding_slide1_subtitle">Live and love life with us</string>
+    <string name="onboarding_slide1_desc">It\'s dead simple and you\'re part of the Mama Fua family.</string>
+
+    <string name="onboarding_slide2_title">Or join our team</string>
+    <string name="onboarding_slide2_subtitle">All from the same app</string>
+    <string name="onboarding_slide2_desc">Apply to join the Mama Fua crew and we\'ll get back to you.</string>
+
+    <string name="onboarding_slide3_title">Pick services</string>
+    <string name="onboarding_slide3_subtitle">Our vast catalog\'s got you</string>
+    <string name="onboarding_slide3_desc">From laundry to dishes and even baby sitting, if you dread it, we\'ve got it.</string>
+
+    <string name="onboarding_slide4_title">Get personalised care</string>
+    <string name="onboarding_slide4_subtitle">The team is here for you</string>
+    <string name="onboarding_slide4_desc">Get a professional to tackle your chores as you focus on what matters.</string>
+
+    <string name="onboarding_slide5_title">Earn from engagements</string>
+    <string name="onboarding_slide5_subtitle">We believe in rewarding work</string>
+    <string name="onboarding_slide5_desc">Earn loyalty points with every engagement for use in the app.</string>
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="get_started">Get started</string>
+
+    <string name="done">Done</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="new_here">New here?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="confirm">Confirm</string>
+    <string name="create_account">Create account</string>
+    <string name="already_a_member">Already a member?</string>
+    <string name="manual">Manual</string>
+    <string name="machine">Machine</string>
+    <string name="placeholder_at">\@</string>
+    <string name="view_cart">View cart</string>
+    <string name="select_current_location">Select current location</string>
+    <string name="payment">Payment</string>
+    <string name="review">Review</string>
+    <string name="cart">Cart</string>
+    <string name="x">x</string>
+    <string name="cart_review">Cart review</string>
+    <string name="pick_up">Pick up</string>
+    <string name="drop_off">Drop off</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="select_photo_of_id">Select photo of id</string>
+    <string name="request_banner">Sending data via this form will set you up for a review by the team, after which you wil be required to avail yourself at one of our centers for an interview which may lead to a job. Please ensure the details are accurate. Thank you</string>
+    <string name="received">Your request was received, await a call from our team.</string>
+    <string name="clear">Clear</string>
+    <string name="phone_template">0xxxxxxxxx</string>
+    <string name="have_code">Do you have a referral/promo code?</string>
+    <string name="enter_code">Enter your code here</string>
+    <string name="no">NO</string>
+    <string name="apply">Apply</string>
+    <string name="add_saf_number">Add your safaricom number</string>
+    <string name="enter_your_number">Enter your number</string>
+    <string name="save">Save</string>
+    <string name="confirm_your_number">Confirm your number</string>
+    <string name="enter_card_name">Enter a name for the number</string>
+    <string name="no_payment">No payment method \n Click + to add one</string>
+    <string name="empty_cart">Your cart is empty \n Click + to fill it up.</string>
+    <string name="no_orders">No data found \n Go online or make an order</string>
+    <string name="no_news">No news at the moment \n Are you connected to the internet?</string>
+    <string name="_0">0</string>
+</resources>

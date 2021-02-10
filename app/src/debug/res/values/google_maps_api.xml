@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=F6:F9:C7:D4:42:FC:AB:5A:CC:AD:F7:1B:E5:4D:65:AC:00:7F:62:16%3Borg.tridzen.mamafua.ui.launcher.order.location
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    org.tridzen.mamafua.ui.home.launcher.post.order.location
+
+    SHA-1 certificate fingerprint:
+    F6:F9:C7:D4:42:FC:AB:5A:CC:AD:F7:1B:E5:4D:65:AC:00:7F:62:16
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCjAdY5OLULYsnTa36ZFR9i067K6k6uAYc</string>
+</resources>

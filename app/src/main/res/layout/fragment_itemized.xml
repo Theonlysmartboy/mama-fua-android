@@ -1,0 +1,24 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/srlItemised"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="72dp">
+
+    <org.tridzen.mamafua.utils.base.GridRecyclerView
+        android:id="@+id/rvResidential"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutAnimation="@anim/grid_animation"
+        android:paddingBottom="72dp"
+        android:clipToPadding="false"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavItemized"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/another" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

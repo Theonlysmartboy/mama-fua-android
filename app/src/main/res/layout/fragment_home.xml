@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.home.HomeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clMenu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#65000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent=".4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".0" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/ic_uchiwa"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/cdTwo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".25" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cdAvatar"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintBottom_toTopOf="@id/cdTwo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".25">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvAvatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="56sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/anonymous"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cdAvatar" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="100 Points"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvProfile" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cdOne"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cdTwo"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".5">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="48dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_service" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="6dp"
+                android:padding="6dp"
+                android:text="Get service"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cdTwo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toEndOf="@id/cdOne"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".5">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="48dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_apply" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="6dp"
+                android:padding="6dp"
+                android:text="Join us"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cdThree"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toStartOf="@id/cdFour"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cdOne">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="48dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_petition" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="6dp"
+                android:padding="6dp"
+                android:text="Activity"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cdFour"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintStart_toEndOf="@id/cdThree"
+            app:layout_constraintTop_toBottomOf="@id/cdTwo">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:padding="48dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_settings" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginTop="6dp"
+                android:padding="6dp"
+                android:text="Settings"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ivCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:padding="16dp"
+            android:src="@drawable/ic_cart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
