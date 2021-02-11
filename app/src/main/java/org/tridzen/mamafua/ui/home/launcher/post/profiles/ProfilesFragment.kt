@@ -1,18 +1,21 @@
 package org.tridzen.mamafua.ui.home.launcher.post.profiles
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.local.entities.Profile
 import org.tridzen.mamafua.data.remote.network.current.Resource
 import org.tridzen.mamafua.databinding.FragmentProfilesBinding
+import org.tridzen.mamafua.utils.base.OnBottomSheetCallbacks
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.data.Prefs
 import org.tridzen.mamafua.utils.runLayoutAnimation
@@ -20,19 +23,51 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
+class ProfilesFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
     private val profilesViewModel by viewModels<ProfilesViewModel>()
 
     @Inject
     lateinit var prefs: Prefs
+    private var currentState: Int = BottomSheetBehavior.STATE_EXPANDED
 
-    private lateinit var binding: FragmentProfilesBinding
+    private var _binding: FragmentProfilesBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentProfilesBinding.bind(view)
 
+        binding.textResult.setOnClickListener {
+            (activity as FinalActivity).openBottomSheet()
+        }
+
+        binding.filterImage.setOnClickListener {
+            when (currentState) {
+                BottomSheetBehavior.STATE_EXPANDED -> {
+                    (activity as FinalActivity).closeBottomSheet()
+                }
+                else -> {
+                    (activity as FinalActivity).openBottomSheet()
+                }
+            }
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        (activity as FinalActivity).setOnBottomSheetCallbacks(this)
+        _binding = FragmentProfilesBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        binding = FragmentProfilesBinding.bind(view)
+//
 //        binding.cgProfiles.setOnCheckedChangeListener { _, _ ->
 //            val list = binding.cgProfiles.children
 //                .toList()
@@ -52,25 +87,10 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
 //            fetchData()
 //            binding.srlProfiles.isRefreshing = false
 //        }
-
-        fetchData()
-        setUp()
-    }
-
-    private fun setUp(){
-        binding.backdropLayout.frontSheet = binding.frontLayer
-        ContextCompat.getDrawable(requireContext(), R.drawable.ic_add)?.let {
-            ContextCompat.getDrawable(requireContext(), R.drawable.ic_minus)?.let { it1 ->
-                binding.backdropLayout.setTriggerView(binding.trigger,
-                    it, it1
-                )
-            }
-        }
-
-// The triggerView can be any view that should trigger the backdrop toggle()
-// Toggle backdrop on trigger view click
-
-    }
+//
+//        fetchData()
+//        setUp()
+//    }
 
     private fun setUpRecyclerView(list: List<Profile>) = binding.rvProfiles.apply {
         layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -101,5 +121,23 @@ class ProfilesFragment : Fragment(R.layout.fragment_profiles) {
                 is Resource.Success -> setUpRecyclerView(it.value.profiles)
             }
         })
+    }
+
+    override fun onStateChanged(bottomSheet: View, newState: Int) {
+        currentState = newState
+        val scale = resources.displayMetrics.density
+        val dpAsPixels = (24 * scale + 0.5f)
+        when (newState) {
+            BottomSheetBehavior.STATE_EXPANDED -> {
+                binding.textResult.text = "0 results"
+                binding.filterImage.setImageResource(R.drawable.ic_baseline_filter_list_24)
+                binding.cdlProfiles.setPadding(0, dpAsPixels.toInt(), 0, 0)
+            }
+            BottomSheetBehavior.STATE_COLLAPSED -> {
+                binding.textResult.text = "See the results"
+                binding.filterImage.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                binding.cdlProfiles.setPadding(0, 0, 0, 0)
+            }
+        }
     }
 }
