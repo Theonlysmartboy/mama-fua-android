@@ -6,22 +6,40 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import org.tridzen.mamafua.R
+import org.tridzen.mamafua.databinding.ActivityProfilesBinding
+import org.tridzen.mamafua.ui.home.launcher.get.services.viewmanager.ViewPagerAdapter
+import org.tridzen.mamafua.ui.home.launcher.post.profiles.fragments.DateTimeFragment
+import org.tridzen.mamafua.ui.home.launcher.post.profiles.fragments.FilterFragment
+import org.tridzen.mamafua.ui.home.launcher.post.profiles.fragments.LocationFragment
 import org.tridzen.mamafua.utils.base.OnBottomSheetCallbacks
+
 
 @AndroidEntryPoint
 class FinalActivity : AppCompatActivity() {
 
     private var listener: OnBottomSheetCallbacks? = null
 
+    private lateinit var binding: ActivityProfilesBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profiles)
+        binding = ActivityProfilesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //removing the shadow from the action bar
         supportActionBar?.elevation = 0f
 
         configureBackdrop()
         closeBottomSheet()
+        setUpViewPager()
+    }
+
+    private fun setUpViewPager() {
+        binding.vpProfiles.adapter = ViewPagerAdapter(
+            this,
+            arrayOf("", "", ""),
+            arrayOf(FilterFragment(), DateTimeFragment(), LocationFragment())
+        )
     }
 
     fun setOnBottomSheetCallbacks(onBottomSheetCallbacks: OnBottomSheetCallbacks) {

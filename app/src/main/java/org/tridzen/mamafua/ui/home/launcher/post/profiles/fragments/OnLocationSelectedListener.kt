@@ -1,4 +1,4 @@
-package org.tridzen.mamafua.ui.home.launcher.post.prepare.tabs
+package org.tridzen.mamafua.ui.home.launcher.post.profiles.fragments
 
 import com.google.android.gms.maps.model.LatLng
 

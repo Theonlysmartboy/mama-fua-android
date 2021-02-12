@@ -5,34 +5,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.tridzen.mamafua.data.remote.network.current.Resource
 import org.tridzen.mamafua.data.remote.repository.ProfilesRepository
-import org.tridzen.mamafua.utils.coroutines.lazyDeferred
+import org.tridzen.mamafua.data.remote.responses.ProfilesResponse
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfilesViewModel@Inject constructor(
+class ProfilesViewModel @Inject constructor(
     private val profilesRepository: ProfilesRepository,
 ) : ViewModel() {
 
     private var _centerId: MutableLiveData<String> = MutableLiveData()
-    val centerId: LiveData<String> get() = _centerId
+    val centerId: LiveData<String> = _centerId
 
-    init {
-        centerId.observeForever {
-            viewModelScope.launch {
-                profilesRepository.getProfilesByCenter(it)
-            }
+    private val _profilesByCenters: MutableLiveData<Resource<ProfilesResponse>> = MutableLiveData()
+    val profilesByCenters: LiveData<Resource<ProfilesResponse>> = _profilesByCenters
+
+    fun getCenters() = centerId.observeForever {
+        viewModelScope.launch(Dispatchers.Main) {
+            val profs = profilesRepository.getProfilesByCenter(it)
+            _profilesByCenters.value = profs.value
         }
     }
 
-    val profiles by lazyDeferred {
-        profilesRepository.getProfiles()
+    fun setCenterId(id: String) {
+        _centerId.value = id
     }
-
-    val profilesByCenter by lazyDeferred {
-        centerId.value?.let { profilesRepository.getProfilesByCenter(it) }
-    }
-
-    fun setCenterId(id: String) = _centerId.postValue(id)
 }

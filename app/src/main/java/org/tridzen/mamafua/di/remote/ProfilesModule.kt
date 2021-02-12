@@ -7,7 +7,9 @@ import dagger.hilt.components.SingletonComponent
 import org.tridzen.mamafua.data.local.AppDatabase
 import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.data.remote.network.current.RemoteDataSource
+import org.tridzen.mamafua.data.remote.network.current.apis.CentersApi
 import org.tridzen.mamafua.data.remote.network.current.apis.ProfilesApi
+import org.tridzen.mamafua.data.remote.repository.CentersRepository
 import org.tridzen.mamafua.data.remote.repository.ProfilesRepository
 import javax.inject.Singleton
 
@@ -25,11 +27,23 @@ object ProfilesModule {
         return ProfilesRepository(api, db, prefs)
     }
 
+    @Provides
+    @Singleton
+    fun provideCentersRepository(api: CentersApi): CentersRepository {
+        return CentersRepository(api)
+    }
+
     @Singleton
     @Provides
     fun provideProfilesApi(
         remoteDataSource: RemoteDataSource,
     ): ProfilesApi {
         return remoteDataSource.buildApi(ProfilesApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCentersApi(remoteDataSource: RemoteDataSource): CentersApi{
+        return remoteDataSource.buildApi(CentersApi::class.java)
     }
 }

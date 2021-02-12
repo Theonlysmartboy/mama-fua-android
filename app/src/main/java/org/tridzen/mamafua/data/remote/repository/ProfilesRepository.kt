@@ -3,7 +3,6 @@ package org.tridzen.mamafua.data.remote.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
@@ -24,19 +23,19 @@ class ProfilesRepository(
 ) : BaseRepository() {
 
     private val _profiles = MutableLiveData<Resource<ProfilesResponse>>()
-    val profiles: LiveData<Resource<ProfilesResponse>> get() = _profiles
+    val profiles: LiveData<Resource<ProfilesResponse>> = _profiles
 
     private suspend fun fetchProfiles(): LiveData<Resource<ProfilesResponse>> {
-        val lastSavedAt = prefs.getValue(AppPreferences.PROFILES_SAVED_AT)
-
-        if (lastSavedAt.first() == null || isFetchNeeded(LocalDateTime.parse(lastSavedAt.first()))) {
-            try {
-                val response = safeApiCall { api.getProfiles() }
-                _profiles.postValue(response)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+//        val lastSavedAt = prefs.getValue(AppPreferences.PROFILES_SAVED_AT)
+//
+//        if (lastSavedAt.first() == null || isFetchNeeded(LocalDateTime.parse(lastSavedAt.first()))) {
+        try {
+            val response = safeApiCall { api.getProfiles() }
+            _profiles.postValue(response)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+//        }
         return profiles
     }
 

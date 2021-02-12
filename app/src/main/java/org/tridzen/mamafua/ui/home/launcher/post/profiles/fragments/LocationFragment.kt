@@ -1,4 +1,4 @@
-package org.tridzen.mamafua.ui.home.launcher.post.prepare.tabs
+package org.tridzen.mamafua.ui.home.launcher.post.profiles.fragments
 
 import android.Manifest
 import android.content.Intent
@@ -28,8 +28,8 @@ import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.databinding.FragmentLocationBinding
 import org.tridzen.mamafua.ui.home.launcher.post.OrderActivity
-import org.tridzen.mamafua.ui.home.launcher.post.pay.OrderBuilder
 import org.tridzen.mamafua.ui.home.launcher.post.OrdersViewModel
+import org.tridzen.mamafua.ui.home.launcher.post.pay.OrderBuilder
 import javax.inject.Inject
 
 @AndroidEntryPoint

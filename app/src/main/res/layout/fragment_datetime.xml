@@ -1,24 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/container"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
 
-    <CalendarView
-        android:id="@+id/dpDateTime"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="@string/date_prompt"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker
+        android:id="@+id/sdtPicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:fontFamily="@font/cairo_semibold"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:picker_cyclic="false"
+        app:picker_dayCount="31"
+        app:picker_itemSpacing="6dp"
+        app:picker_mustBeOnFuture="true"
+        app:picker_selectedTextColor="@color/mamafua_yellow_300"
+        app:picker_selectorColor="@android:color/darker_gray"
+        app:picker_stepSizeHours="1"
+        app:picker_stepSizeMinutes="1"
+        app:picker_textAlign="left"
+        app:picker_textColor="@color/colorWhite"
+        app:picker_visibleItemCount="7" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/butOk"
         android:layout_width="wrap_content"
-        android:layout_marginEnd="6dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
         android:text="Ok"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
@@ -32,20 +54,10 @@
         app:layout_constraintEnd_toStartOf="@id/butOk"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
 
-    <TimePicker
-        android:id="@+id/tpDateTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".8" />
+        app:layout_constraintGuide_percent=".5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

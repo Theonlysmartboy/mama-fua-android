@@ -40,16 +40,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings),
                     updateUI(it)
             }
         }
-    }
-
-    private fun updateUI(user: User) {
-        binding.tvAvatar.text = firstLetter(user.username)
-        binding.tvName.setText(user.username)
-        binding.tvPhone.setText(user.phone)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
         val list = mutableListOf<Settings>()
         val settingsAdapter = SettingsAdapter(list)
@@ -67,6 +57,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings),
                 )
             )
         }
+    }
+
+    private fun updateUI(user: User) {
+        binding.tvAvatar.text = firstLetter(user.username)
+        binding.tvName.setText(user.username)
+        binding.tvPhone.setText(user.phone)
     }
 
     override fun onLogout(logout: Boolean) {
@@ -88,6 +84,18 @@ class SettingsFragment : Fragment(R.layout.fragment_settings),
                 true
             )
         )
+
+        list.add(
+            Settings(
+                "Promo code dialog",
+                arrayListOf("Always show", "Don't show"),
+                R.drawable.ic_badge,
+                "",
+                null,
+                true
+            )
+        )
+
         list.add(
             Settings(
                 "Terms & conditions",

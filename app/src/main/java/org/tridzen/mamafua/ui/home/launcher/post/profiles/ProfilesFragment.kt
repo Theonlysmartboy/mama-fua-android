@@ -1,6 +1,7 @@
 package org.tridzen.mamafua.ui.home.launcher.post.profiles
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,9 @@ import org.tridzen.mamafua.data.local.entities.Profile
 import org.tridzen.mamafua.data.remote.network.current.Resource
 import org.tridzen.mamafua.databinding.FragmentProfilesBinding
 import org.tridzen.mamafua.utils.base.OnBottomSheetCallbacks
-import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.data.Prefs
 import org.tridzen.mamafua.utils.runLayoutAnimation
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class ProfilesFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
@@ -34,25 +33,6 @@ class ProfilesFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
     private var _binding: FragmentProfilesBinding? = null
     private val binding get() = _binding!!
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.textResult.setOnClickListener {
-            (activity as FinalActivity).openBottomSheet()
-        }
-
-        binding.filterImage.setOnClickListener {
-            when (currentState) {
-                BottomSheetBehavior.STATE_EXPANDED -> {
-                    (activity as FinalActivity).closeBottomSheet()
-                }
-                else -> {
-                    (activity as FinalActivity).openBottomSheet()
-                }
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,63 +44,47 @@ class ProfilesFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
         return binding.root
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        binding = FragmentProfilesBinding.bind(view)
-//
-//        binding.cgProfiles.setOnCheckedChangeListener { _, _ ->
-//            val list = binding.cgProfiles.children
-//                .toList()
-//                .filter { (it as Chip).isChecked }
-//                .joinToString(", ") { (it as Chip).text }
-//
-//            if (list == "All") fetchData()
-//
-//            profilesViewModel.setCenterId(list)
-//        }
-//
-//        profilesViewModel.centerId.observe(viewLifecycleOwner) {
-//            fetchProfilesById(profilesViewModel)
-//        }
-//
-//        binding.srlProfiles.setOnRefreshListener {
-//            fetchData()
-//            binding.srlProfiles.isRefreshing = false
-//        }
-//
-//        fetchData()
-//        setUp()
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.textResult.setOnClickListener {
+            (activity as FinalActivity).openBottomSheet()
+        }
+
+        Log.d("State", currentState.toString())
+        binding.filterImage.setOnClickListener {
+
+            when (currentState) {
+                BottomSheetBehavior.STATE_EXPANDED -> {
+                    (activity as FinalActivity).openBottomSheet()
+                }
+                else -> {
+                    (activity as FinalActivity).closeBottomSheet()
+                }
+            }
+        }
+
+        profilesViewModel.getCenters()
+        profilesViewModel.profilesByCenters.observe(requireActivity()) { resource ->
+            when (resource) {
+                is Resource.Failure -> {
+                    Log.d("Profiles by center", "${resource.errorBody}")
+                }
+                Resource.Loading -> {
+                }
+                is Resource.Success -> {
+                    setUpRecyclerView(resource.value.profiles)
+                    Log.d("Profiles by center", "${resource.value.profiles.size}")
+                }
+            }
+        }
+    }
 
     private fun setUpRecyclerView(list: List<Profile>) = binding.rvProfiles.apply {
         layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         val profilesAdapter = ProfilesAdapter(list, prefs, findNavController())
         adapter = profilesAdapter
         runLayoutAnimation()
-    }
-
-    private fun fetchData() = Coroutines.main {
-        profilesViewModel.profiles.await().observe(viewLifecycleOwner, {
-            when (it) {
-                is Resource.Failure -> {
-                }
-                Resource.Loading -> {
-                }
-                is Resource.Success -> setUpRecyclerView(it.value.profiles)
-            }
-        })
-    }
-
-    private fun fetchProfilesById(viewModel: ProfilesViewModel) = Coroutines.main {
-        viewModel.profilesByCenter.await()?.observe(viewLifecycleOwner, {
-            when (it) {
-                is Resource.Failure -> {
-                }
-                Resource.Loading -> {
-                }
-                is Resource.Success -> setUpRecyclerView(it.value.profiles)
-            }
-        })
     }
 
     override fun onStateChanged(bottomSheet: View, newState: Int) {
