@@ -41,6 +41,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
     private lateinit var modeAdapter: PaymentAdapter
     private lateinit var newMode: Payment
     private lateinit var payment: Payment
+
     private val paymentReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.extras?.getBoolean("start") == true) {
@@ -110,6 +111,8 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
                 if (visiblePosition > -1) {
                     payment = list[visiblePosition]
                     Log.d("Position 2, number 2", "$visiblePosition ${payment.number}")
+                } else {
+                    payment = list[0]
                 }
             }
         })

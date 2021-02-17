@@ -82,7 +82,7 @@
     <string name="request_banner">Sending data via this form will set you up for a review by the team, after which you wil be required to avail yourself at one of our centers for an interview which may lead to a job. Please ensure the details are accurate. Thank you</string>
     <string name="received">Your request was received, await a call from our team.</string>
     <string name="clear">Clear</string>
-    <string name="phone_template">0xxxxxxxxx</string>
+    <string name="phone_template">Click here to save number</string>
     <string name="have_code">Do you have a referral/promo code?</string>
     <string name="enter_code">Enter your code here</string>
     <string name="no">NO</string>
@@ -97,4 +97,10 @@
     <string name="no_orders">No data found \n Go online or make an order</string>
     <string name="_0">0</string>
     <string name="date_prompt">When do you want to get the service?</string>
+    <string name="sort">Sort</string>
+    <string name="estate">Choose estate</string>
+    <string name="see_results">See the results</string>
+    <string name="results_in_estate">results in your estate</string>
+    <string name="choose_estate">Please choose an estate to proceed</string>
+    <string name="primary_number">Primary phone number</string>
 </resources>

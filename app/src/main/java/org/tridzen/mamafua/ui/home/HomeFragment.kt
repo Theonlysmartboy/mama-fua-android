@@ -45,7 +45,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.ivCart.setOnClickListener {
             startActivity(Intent(requireContext(), OrderActivity::class.java))
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
         lifecycleScope.launch {
             homeViewModel.getLoggedInUser.await().observe(viewLifecycleOwner) {
                 if (it != null)

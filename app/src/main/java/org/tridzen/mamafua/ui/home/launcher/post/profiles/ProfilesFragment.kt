@@ -1,12 +1,11 @@
 package org.tridzen.mamafua.ui.home.launcher.post.profiles
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.activity.addCallback
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,14 +23,32 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProfilesFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
 
-    private val profilesViewModel by viewModels<ProfilesViewModel>()
-
     @Inject
     lateinit var prefs: Prefs
-    private var currentState: Int = BottomSheetBehavior.STATE_EXPANDED
+    private var currentState: Int = BottomSheetBehavior.STATE_HALF_EXPANDED
 
     private var _binding: FragmentProfilesBinding? = null
     private val binding get() = _binding!!
+    private var results: Int = 0
+
+    private val profilesViewModel by activityViewModels<ProfilesViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            when (currentState) {
+                BottomSheetBehavior.STATE_EXPANDED -> {
+                    (activity as FinalActivity).closeBottomSheet()
+                }
+
+                else -> {
+                    this.remove()
+                    (activity as FinalActivity).onBackPressed()
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,40 +68,44 @@ class ProfilesFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
             (activity as FinalActivity).openBottomSheet()
         }
 
-        Log.d("State", currentState.toString())
         binding.filterImage.setOnClickListener {
-
             when (currentState) {
-                BottomSheetBehavior.STATE_EXPANDED -> {
+                BottomSheetBehavior.STATE_HALF_EXPANDED -> {
                     (activity as FinalActivity).openBottomSheet()
                 }
-                else -> {
+                BottomSheetBehavior.STATE_EXPANDED -> {
                     (activity as FinalActivity).closeBottomSheet()
+                }
+                else -> {
+                    (activity as FinalActivity).openBottomSheet()
                 }
             }
         }
 
-        profilesViewModel.getCenters()
-        profilesViewModel.profilesByCenters.observe(requireActivity()) { resource ->
-            when (resource) {
+        profilesViewModel.data.observe(activity as FinalActivity) {
+            when (it) {
+                is Resource.Success -> {
+                    val show = if (it.value.profiles.isEmpty()) View.VISIBLE else View.GONE
+                    binding.tvChoose.visibility = show
+                    binding.lavChoose.visibility = show
+
+                    setUpRecyclerView(it.value.profiles)
+                    results = it.value.profiles.size
+                }
                 is Resource.Failure -> {
-                    Log.d("Profiles by center", "${resource.errorBody}")
                 }
                 Resource.Loading -> {
-                }
-                is Resource.Success -> {
-                    setUpRecyclerView(resource.value.profiles)
-                    Log.d("Profiles by center", "${resource.value.profiles.size}")
                 }
             }
         }
     }
 
-    private fun setUpRecyclerView(list: List<Profile>) = binding.rvProfiles.apply {
-        layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        val profilesAdapter = ProfilesAdapter(list, prefs, findNavController())
-        adapter = profilesAdapter
-        runLayoutAnimation()
+    private fun setUpRecyclerView(list: List<Profile>) {
+        binding.rvProfiles.apply {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            adapter = ProfilesAdapter(list, prefs)
+            runLayoutAnimation()
+        }
     }
 
     override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -93,13 +114,15 @@ class ProfilesFragment : BottomSheetDialogFragment(), OnBottomSheetCallbacks {
         val dpAsPixels = (24 * scale + 0.5f)
         when (newState) {
             BottomSheetBehavior.STATE_EXPANDED -> {
-                binding.textResult.text = "0 results"
-                binding.filterImage.setImageResource(R.drawable.ic_baseline_filter_list_24)
+                (results.toString() + " " + getString(R.string.results_in_estate)).also {
+                    binding.textResult.text = it
+                }
+                binding.filterImage.setImageResource(R.drawable.ic_filter)
                 binding.cdlProfiles.setPadding(0, dpAsPixels.toInt(), 0, 0)
             }
             BottomSheetBehavior.STATE_COLLAPSED -> {
-                binding.textResult.text = "See the results"
-                binding.filterImage.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                binding.textResult.text = getString(R.string.see_results)
+                binding.filterImage.setImageResource(R.drawable.ic_up_arrow)
                 binding.cdlProfiles.setPadding(0, 0, 0, 0)
             }
         }

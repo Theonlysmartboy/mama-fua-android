@@ -30,7 +30,6 @@
     <color name="mamafua_yellow_300">#b0c4de</color>
     <color name="mamafua_yellow_500">#436b95</color>
 
-
     <color name="colorPurple">#6c63ff</color>
     <color name="colorIndigo">#303F9F</color>
     <color name="colorBlueMidnight">#003366</color>
@@ -38,8 +37,11 @@
     <color name="textGrey">#393939</color>
     <color name="otherGrey">#EFEEEE</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="statusBarTranparent">#60FFFFFF</color>
+    <color name="statusBarTranparent">#00000000</color>
 
     <color name="white">#FFFFFFFF</color>
+
+
+    <!-- colors for tab and screent text -->
 
 </resources>

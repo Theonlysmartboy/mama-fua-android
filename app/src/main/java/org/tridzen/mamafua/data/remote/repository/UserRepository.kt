@@ -1,5 +1,6 @@
 package org.tridzen.mamafua.data.remote.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,7 @@ class UserRepository(
     val user: LiveData<User> get() = _user
 
     init {
-        _user.observeForever {
+        user.observeForever {
             saveUser(it)
         }
     }
@@ -42,7 +43,7 @@ class UserRepository(
         api.updateUser(userId, update)
     }
 
-    suspend fun fetchUser() {
+    suspend fun fetchUser(): LiveData<User> {
         val lastSavedAt = prefs.getString(Prefs.USER_SAVED_AT)
         if ((lastSavedAt.isEmpty()) || isFetchNeeded(LocalDateTime.parse(lastSavedAt))) {
             try {
@@ -53,13 +54,14 @@ class UserRepository(
                     is Resource.Success -> _user.postValue(response.value.user)
 
                     is Resource.Failure -> {
-
+                        Log.d("User", response.isNetworkError.toString())
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
+        return user
     }
 
     suspend fun getUser(): LiveData<User> {

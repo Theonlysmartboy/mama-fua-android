@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
 
     val user = repository.user
 
-    fun getFreshUser() = viewModelScope.launch {
+    val freshUser by lazyDeferred {
         repository.fetchUser()
     }
 

@@ -10,7 +10,6 @@ import dagger.hilt.components.SingletonComponent
 import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.data.remote.AppPreferences.Companion.THEME_PREFS
 import org.tridzen.mamafua.utils.ThemeHelper
-import timber.log.Timber
 
 @HiltAndroidApp
 @Module
@@ -26,10 +25,6 @@ class FuaApplication() : Application() {
             if (it != null) {
                 ThemeHelper.applyTheme(it)
             }
-        }
-
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
         }
     }
 }

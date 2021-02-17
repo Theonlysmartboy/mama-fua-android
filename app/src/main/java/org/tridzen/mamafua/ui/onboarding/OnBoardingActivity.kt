@@ -1,6 +1,5 @@
 package org.tridzen.mamafua.ui.onboarding
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +19,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class OnBoardingActivity : AppCompatActivity() {
 
-    @Inject lateinit var prefs: AppPreferences
+    @Inject
+    lateinit var prefs: AppPreferences
 
     private lateinit var sliderAdapter: SliderAdapter
     private var dots: Array<TextView?>? = null
@@ -57,18 +57,10 @@ class OnBoardingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        hideUI()
         setContentView(R.layout.activity_onboarding)
 
         init()
-        dataSet()
         interactions()
-    }
-
-    private fun hideUI() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.setDecorFitsSystemWindows(false)
-        } else window.statusBarColor = ContextCompat.getColor(this, R.color.statusBarTranparent)
     }
 
     private fun init() {
@@ -85,12 +77,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
         sliderAdapter =
             SliderAdapter(this, layouts)
-    }
 
-    private fun dataSet() {
-        /**
-         * Adding bottom dots
-         * */
         addBottomDots(0)
 
         slider.apply {

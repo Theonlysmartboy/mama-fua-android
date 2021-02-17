@@ -17,7 +17,6 @@
 <resources>
 
     <style name="Theme.Sunflower" parent="Base.Theme.Sunflower">
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>

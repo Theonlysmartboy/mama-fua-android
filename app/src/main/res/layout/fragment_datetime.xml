@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:fontFamily="@font/cairo_semibold"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:picker_cyclic="false"
         app:picker_dayCount="31"
@@ -40,18 +41,9 @@
         android:id="@+id/butOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:text="Ok"
+        android:drawableEnd="@drawable/ic_done"
+        android:text="@string/next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/butCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="6dp"
-        android:text="Cancel"
-        app:layout_constraintEnd_toStartOf="@id/butOk"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
 
     <androidx.constraintlayout.widget.Guideline

@@ -14,13 +14,9 @@ class AppPreferences(
     context: Context
 ) {
     private val applicationContext = context.applicationContext
-    private val dataStore: DataStore<Preferences>
-
-    init {
-        dataStore = applicationContext.createDataStore(
-            name = "my_data_store"
-        )
-    }
+    private val dataStore: DataStore<Preferences> = applicationContext.createDataStore(
+        name = "my_data_store"
+    )
 
     suspend fun <T> saveValue(value: T, key: Preferences.Key<T>) = dataStore.edit { preferences ->
         preferences[key] = value

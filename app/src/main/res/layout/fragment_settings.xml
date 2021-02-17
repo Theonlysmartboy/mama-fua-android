@@ -1,112 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/ctlSettings"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clProfile"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:fitsSystemWindows="true">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cdProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="12dp"
+            app:cardCornerRadius="100dp"
+            app:cardElevation="8dp"
+            app:cardPreventCornerOverlap="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cdProfile"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="12dp"
-                app:cardCornerRadius="100dp"
-                app:cardElevation="8dp"
-                app:cardPreventCornerOverlap="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/tvAvatar"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:textSize="60sp" />
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/tvName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:ellipsize="end"
-                android:fontFamily="@font/poppins_bold"
-                android:maxLines="1"
-                android:text="@string/anonymous"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias=".4"
-                app:layout_constraintStart_toEndOf="@id/cdProfile"
-                app:layout_constraintTop_toTopOf="@id/cdProfile" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivLocation"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAvatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_location"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/tvPhone"
-                app:layout_constraintStart_toStartOf="@id/tvName"
-                app:layout_constraintTop_toBottomOf="@id/tvName" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/tvPhone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:background="@null"
+                android:layout_gravity="center"
                 android:fontFamily="@font/poppins_semibold"
-                android:inputType="number"
-                android:text="@string/phone_template"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/tvLocation"
-                app:layout_constraintStart_toEndOf="@id/ivLocation"
-                app:layout_constraintTop_toBottomOf="@id/tvName" />
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="60sp" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/tvLocation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:background="@null"
-                android:fontFamily="@font/poppins_semibold"
-                android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:text="@string/anonymous"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@id/cdProfile"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivLocation"
-                app:layout_constraintTop_toBottomOf="@id/tvPhone" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
-    </com.google.android.material.appbar.AppBarLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:id="@+id/guideline"
+            app:layout_constraintGuide_percent=".35"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSettings"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:ellipsize="end"
+            android:fontFamily="@font/poppins_light"
+            android:maxLines="1"
+            android:text="@string/anonymous"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toTopOf="@id/cdProfile" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tvPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:fontFamily="@font/poppins_light"
+            android:inputType="number"
+            android:hint="@string/primary_number"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/tvLocation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tvLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:fontFamily="@font/poppins_light"
+            android:imeOptions="actionDone"
+            android:maxLines="1"
+            android:text="@string/anonymous"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/cdProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintTop_toBottomOf="@id/tvPhone" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_height="0dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clProfile">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSettings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp" />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

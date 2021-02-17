@@ -6,9 +6,6 @@ import retrofit2.http.Query
 
 interface ProfilesApi {
 
-    @GET("profiles")
-    suspend fun getProfiles(): ProfilesResponse
-
     @GET("profiles/findbycenter/{centerId}")
     suspend fun getProfilesByCenter(@Query("centerId") centerId: String): ProfilesResponse
 }

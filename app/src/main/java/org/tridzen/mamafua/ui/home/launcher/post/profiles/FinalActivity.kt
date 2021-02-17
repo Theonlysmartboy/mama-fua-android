@@ -2,6 +2,7 @@ package org.tridzen.mamafua.ui.home.launcher.post.profiles
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,13 +14,14 @@ import org.tridzen.mamafua.ui.home.launcher.post.profiles.fragments.FilterFragme
 import org.tridzen.mamafua.ui.home.launcher.post.profiles.fragments.LocationFragment
 import org.tridzen.mamafua.utils.base.OnBottomSheetCallbacks
 
-
 @AndroidEntryPoint
 class FinalActivity : AppCompatActivity() {
 
     private var listener: OnBottomSheetCallbacks? = null
 
     private lateinit var binding: ActivityProfilesBinding
+
+    private val profilesViewModel by viewModels<ProfilesViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +42,7 @@ class FinalActivity : AppCompatActivity() {
             arrayOf("", "", ""),
             arrayOf(FilterFragment(), DateTimeFragment(), LocationFragment())
         )
+        binding.vpProfiles.isUserInputEnabled = false
     }
 
     fun setOnBottomSheetCallbacks(onBottomSheetCallbacks: OnBottomSheetCallbacks) {
@@ -69,7 +72,7 @@ class FinalActivity : AppCompatActivity() {
                     }
                 })
 
-                bs.state = BottomSheetBehavior.STATE_EXPANDED
+                bs.state = BottomSheetBehavior.STATE_HALF_EXPANDED
                 mBottomSheetBehavior = bs
             }
         }

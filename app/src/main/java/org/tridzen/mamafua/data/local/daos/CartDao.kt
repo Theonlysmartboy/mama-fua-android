@@ -11,7 +11,7 @@ interface CartDao {
     suspend fun insertEntry(cart: Cart)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCart(cart: MutableList<Cart>)
+    suspend fun insertCart(cart: List<Cart>)
 
     @Delete
     suspend fun removeEntry(cart: Cart)

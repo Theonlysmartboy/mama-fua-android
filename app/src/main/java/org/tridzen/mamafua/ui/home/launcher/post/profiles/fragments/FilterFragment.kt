@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
@@ -21,7 +22,7 @@ import org.tridzen.mamafua.utils.coroutines.Coroutines
 class FilterFragment : Fragment(R.layout.fragment_filter) {
 
     private val centersViewModel by viewModels<CentersViewModel>()
-    private val profilesViewModel by viewModels<ProfilesViewModel>()
+    private val profilesViewModel by activityViewModels<ProfilesViewModel>()
 
     private lateinit var binding: FragmentFilterBinding
 
@@ -67,13 +68,12 @@ class FilterFragment : Fragment(R.layout.fragment_filter) {
         }
 
         binding.cgProfiles.setOnCheckedChangeListener { group, _ ->
-
             val chips = group.children
                 .toList()
                 .filter { (it as Chip).isChecked }
                 .joinToString(", ") { (it as Chip).text }
 
-            profilesViewModel.setCenterId(chips)
+            profilesViewModel.getData(chips)
         }
     }
 }

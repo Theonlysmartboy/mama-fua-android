@@ -2,7 +2,6 @@ package org.tridzen.mamafua.ui.home.launcher.post.profiles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,7 +17,6 @@ import org.tridzen.mamafua.utils.getName
 class ProfilesAdapter(
     private val profiles: List<Profile>,
     private val prefs: Prefs,
-    private val controller: NavController
 ) :
     RecyclerView.Adapter<ProfilesAdapter.ViewHolder>() {
 
@@ -28,7 +26,7 @@ class ProfilesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(profiles[position], prefs,controller)
+        holder.bind(profiles[position], prefs)
     }
 
     override fun getItemCount() = profiles.size
@@ -40,7 +38,6 @@ class ProfilesAdapter(
         fun bind(
             profile: Profile,
             prefs: Prefs,
-            controller: NavController
         ) {
             val imageUrl = "${BASE_URL}/${profile.imageUrl}"
 
@@ -83,8 +80,6 @@ class ProfilesAdapter(
                 layout.butPick.setOnClickListener {
                     dialog.dismiss()
 
-                    controller.navigate(R.id.action_profilesFragment_to_dateTimeFragment)
-
 //                    val order = Order(
 //                        _id = profile._id + 1,
 //                        fullfillerId = profile._id,
@@ -98,7 +93,7 @@ class ProfilesAdapter(
                     list[Prefs.FULFILLER_NAME] = getName(profile)
                     list[Prefs.CENTER] = profile.centerId
                     Coroutines.io {
-                        list.forEach{
+                        list.forEach {
                             prefs.setString(it.key, it.key)
                         }
                     }

@@ -2,12 +2,13 @@ package org.tridzen.mamafua.ui.home.launcher.settings
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.tridzen.mamafua.R
@@ -17,6 +18,7 @@ import org.tridzen.mamafua.databinding.FragmentSettingsBinding
 import org.tridzen.mamafua.ui.home.HomeViewModel
 import org.tridzen.mamafua.utils.firstLetter
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings),
@@ -50,12 +52,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings),
         binding.rvSettings.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = settingsAdapter
-            addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL
-                )
-            )
+            val dividerItemDecoration: ItemDecoration =
+                DividerItemDecorator(ContextCompat.getDrawable(context, R.drawable.divider)!!)
+            addItemDecoration(dividerItemDecoration)
         }
     }
 
@@ -128,3 +127,4 @@ class SettingsFragment : Fragment(R.layout.fragment_settings),
         )
     }
 }
+
