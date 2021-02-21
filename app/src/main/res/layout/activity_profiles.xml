@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/filter_fragment"
-        android:name="org.tridzen.mamafua.ui.home.launcher.post.profiles.ProfilesFragment"
+        android:name="org.tridzen.mamafua.ui.home.order.profiles.fragments.ProfilesFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:elevation="1dp"

@@ -7,48 +7,32 @@
 
     <fragment
         android:id="@+id/cartFragment"
-        android:name="org.tridzen.mamafua.ui.home.launcher.post.prepare.cart.CartFragment"
+        android:name="org.tridzen.mamafua.ui.home.order.prepare.cart.CartFragment"
         android:label="Cart"
         tools:layout="@layout/fragment_cart">
         <action
             android:id="@+id/action_cartFragment_to_mapsFragment"
-            app:destination="@id/reviewFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:destination="@id/reviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/reviewFragment"
-        android:name="org.tridzen.mamafua.ui.home.launcher.post.prepare.review.ReviewFragment"
+        android:name="org.tridzen.mamafua.ui.home.order.prepare.review.ReviewFragment"
         android:label="Delivery"
         tools:layout="@layout/fragment_review">
         <action
             android:id="@+id/action_mapsFragment_to_checkoutFragment"
-            app:destination="@id/checkoutFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
+            app:destination="@id/checkoutFragment" />
         <action
             android:id="@+id/action_reviewFragment_to_cartFragment"
-            app:destination="@id/cartFragment"
-            app:enterAnim="@android:anim/slide_out_right"
-            app:exitAnim="@android:anim/slide_in_left"
-            app:popEnterAnim="@android:anim/slide_out_right"
-            app:popExitAnim="@android:anim/slide_in_left" />
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
-        android:name="org.tridzen.mamafua.ui.home.launcher.post.pay.checkout.CheckoutFragment"
+        android:name="org.tridzen.mamafua.ui.home.order.prepare.checkout.CheckoutFragment"
         android:label="Checkout"
         tools:layout="@layout/fragment_checkout">
         <action
             android:id="@+id/action_checkoutFragment_to_reviewFragment"
-            app:destination="@id/reviewFragment"
-            app:enterAnim="@android:anim/slide_out_right"
-            app:exitAnim="@android:anim/slide_in_left"
-            app:popEnterAnim="@android:anim/slide_out_right"
-            app:popExitAnim="@android:anim/slide_in_left" />
+            app:destination="@id/reviewFragment" />
     </fragment>
 </navigation>

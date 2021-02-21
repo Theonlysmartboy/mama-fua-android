@@ -6,6 +6,9 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import org.tridzen.mamafua.data.remote.AppPreferences
+import org.tridzen.mamafua.data.remote.AppPreferences.Companion.THEME_PREFS
+import org.tridzen.mamafua.utils.coroutines.Coroutines
 
 object ThemeHelper {
 
@@ -13,7 +16,7 @@ object ThemeHelper {
     const val DARK_MODE = "dark"
     const val DEFAULT_MODE = "default"
 
-    fun applyTheme(theme: String) {
+    fun applyTheme(theme: String, context: Context) {
         val mode = when (theme) {
             LIGHT_MODE -> AppCompatDelegate.MODE_NIGHT_NO
             DARK_MODE -> AppCompatDelegate.MODE_NIGHT_YES
@@ -26,6 +29,9 @@ object ThemeHelper {
             }
         }
         AppCompatDelegate.setDefaultNightMode(mode)
+        Coroutines.io {
+            AppPreferences(context).saveValue(theme, THEME_PREFS)
+        }
     }
 
     fun getTheme(context: Context): Flow<String> = flow {

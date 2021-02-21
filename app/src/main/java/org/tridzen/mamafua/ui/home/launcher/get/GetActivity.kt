@@ -19,9 +19,9 @@ import org.tridzen.mamafua.ui.home.launcher.get.services.DeliveryFragment
 import org.tridzen.mamafua.ui.home.launcher.get.services.ItemizedFragment
 import org.tridzen.mamafua.ui.home.launcher.get.services.PackageFragment
 import org.tridzen.mamafua.ui.home.launcher.get.services.viewmanager.ViewPagerAdapter
-import org.tridzen.mamafua.ui.home.launcher.post.OrderActivity
-import org.tridzen.mamafua.ui.home.launcher.post.prepare.cart.CartViewModel
-import org.tridzen.mamafua.ui.home.launcher.post.profiles.FinalActivity
+import org.tridzen.mamafua.ui.home.order.OrderActivity
+import org.tridzen.mamafua.ui.home.order.prepare.cart.CartViewModel
+import org.tridzen.mamafua.ui.home.order.profiles.FinalActivity
 
 @AndroidEntryPoint
 class GetActivity : AppCompatActivity() {

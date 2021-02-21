@@ -30,10 +30,13 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.local.entities.Profile
+import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.data.remote.network.withdi.Resource
 import org.tridzen.mamafua.ui.auth.LoginFragment
+import org.tridzen.mamafua.ui.home.order.prepare.cart.CartFragment
 import java.util.*
 import kotlin.math.ln
 
@@ -303,11 +306,12 @@ fun Context.showMaterialDialog(
     titleText: String,
     contentText: String,
     animationId: Int? = R.raw.caution,
+    showAnim: Boolean? = false,
     buttonConfirm: String = "Confirm",
     buttonCancel: String = "Cancel",
     function: () -> Any
 ): MaterialDialog {
-   val dialog =  MaterialDialog(this).show {
+    return MaterialDialog(this).show {
         customView(R.layout.dialog_confirm)
         val view = getCustomView()
         val confirm = view.butConfirm
@@ -318,6 +322,8 @@ fun Context.showMaterialDialog(
         if (animationId != null) {
             view.lavPurchase.setAnimation(animationId)
         }
+
+        view.lavPurchase.visibility = if (showAnim == true) View.VISIBLE else View.GONE
 
         confirm.text = buttonConfirm
         cancel.text = buttonCancel
@@ -334,7 +340,6 @@ fun Context.showMaterialDialog(
             dismiss()
         }
     }
-    return dialog
 }
 
 fun <T : CoordinatorLayout.Behavior<*>> View.findBehavior(): T = layoutParams.run {
@@ -342,5 +347,19 @@ fun <T : CoordinatorLayout.Behavior<*>> View.findBehavior(): T = layoutParams.ru
 
     (layoutParams as CoordinatorLayout.LayoutParams).behavior as? T
         ?: throw IllegalArgumentException("Layout's behavior is not current behavior")
+}
+
+suspend fun getLatLng(context: Context): CartFragment.LatLng {
+    val latitude =
+        AppPreferences(context).getValue(AppPreferences.LATITUDE_PREFS)
+            .first()
+
+    val longitude =
+        AppPreferences(context).getValue(AppPreferences.LONGITUDE_PREFS)
+            .first()
+
+    return if (latitude != null && longitude != null)
+        CartFragment.LatLng(latitude, longitude)
+    else CartFragment.LatLng(0.0, 0.0)
 }
 

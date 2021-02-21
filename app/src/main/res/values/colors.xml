@@ -35,9 +35,7 @@
     <color name="colorBlueMidnight">#003366</color>
     <color name="colorGrey">#C9C9C9</color>
     <color name="textGrey">#393939</color>
-    <color name="otherGrey">#EFEEEE</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="statusBarTranparent">#00000000</color>
 
     <color name="white">#FFFFFFFF</color>
 

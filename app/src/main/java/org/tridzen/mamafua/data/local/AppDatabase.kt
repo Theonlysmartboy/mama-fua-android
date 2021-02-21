@@ -7,12 +7,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import org.tridzen.mamafua.data.local.daos.*
 import org.tridzen.mamafua.data.local.entities.*
-import org.tridzen.mamafua.data.local.entities.Payment
 import org.tridzen.mamafua.utils.data.Converters
 
 @Database(
     entities = [Profile::class, Cart::class, Service::class, News::class, Order::class, User::class, Payment::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -39,13 +38,17 @@ abstract class AppDatabase : RoomDatabase() {
         }
 
         fun getDatabase(context: Context): AppDatabase =
-            instance ?: synchronized(this) { instance ?: buildDatabase(context).also { instance = it } }
+            instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also {
+                    instance = it
+                }
+            }
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
                 "MamaFua.db"
-            ).build()
+            ).fallbackToDestructiveMigration().build()
     }
 }

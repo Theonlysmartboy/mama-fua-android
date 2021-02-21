@@ -14,8 +14,8 @@ class CartRepository(private val db: AppDatabase) : BaseRepository() {
         db.getCartDao().updateEntry(count, id)
     }
 
-    suspend fun removeEntry(cart: Cart) =
-        db.getCartDao().removeEntry(cart)
+    suspend fun removeEntry(id: String) =
+        db.getCartDao().removeEntry(id)
 
     suspend fun insertCart(cart: List<Cart>) =
         db.getCartDao().insertCart(cart)

@@ -72,18 +72,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cgProfiles"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:chipSpacing="2dp"
-        android:padding="2dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:selectionRequired="true"
-        app:singleLine="true"
-        app:singleSelection="true" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgProfiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            app:chipSpacing="0dp"
+            app:chipSpacingHorizontal="1dp"
+            app:chipSpacingVertical="4dp"
+            app:selectionRequired="true"
+            app:singleLine="false"
+            app:singleSelection="true" />
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

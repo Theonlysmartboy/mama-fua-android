@@ -13,7 +13,7 @@ import org.tridzen.mamafua.data.local.entities.Service
 import org.tridzen.mamafua.databinding.FragmentPackageBinding
 import org.tridzen.mamafua.ui.home.launcher.get.services.viewmanager.ServiceAdapter
 import org.tridzen.mamafua.ui.home.launcher.get.services.viewmodels.ServicesViewModel
-import org.tridzen.mamafua.ui.home.launcher.post.prepare.cart.CartViewModel
+import org.tridzen.mamafua.ui.home.order.prepare.cart.CartViewModel
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.visible
 

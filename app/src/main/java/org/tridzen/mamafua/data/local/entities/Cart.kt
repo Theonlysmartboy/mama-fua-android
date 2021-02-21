@@ -9,5 +9,7 @@ data class Cart(
     var id: String,
     var count: Int = 0,
     var service: Service,
-    var style: String
+    var style: String,
 )
+
+

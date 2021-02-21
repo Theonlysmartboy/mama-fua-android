@@ -20,7 +20,7 @@ import org.tridzen.mamafua.utils.startNewActivity
 import org.tridzen.mamafua.utils.visible
 
 @AndroidEntryPoint
-class LoginFragment :  Fragment(R.layout.fragment_login) {
+class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private val viewModel by viewModels<HomeViewModel>()
     private lateinit var binding: FragmentLoginBinding

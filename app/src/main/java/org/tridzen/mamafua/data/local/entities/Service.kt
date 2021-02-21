@@ -17,4 +17,18 @@ data class Service(
     val offerPc: Int,
     val onSitePrice: Int,
     val updatedAt: String
-)
+) {
+    constructor() : this(
+        __v = 0,
+        _id = "",
+        createdAt = "",
+        description = "",
+        imageUrl = "",
+        machinePrice = 0,
+        name = "",
+        offSitePrice = 0,
+        offerPc = 0,
+        onSitePrice = 0,
+        updatedAt = ""
+    )
+}

@@ -1,5 +1,6 @@
 package org.tridzen.mamafua.ui.home.launcher.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -16,6 +17,8 @@ import org.tridzen.mamafua.data.local.entities.User
 import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.databinding.FragmentSettingsBinding
 import org.tridzen.mamafua.ui.home.HomeViewModel
+import org.tridzen.mamafua.ui.home.interfaces.OnLogoutHandler
+import org.tridzen.mamafua.ui.onboarding.OnBoardingActivity
 import org.tridzen.mamafua.utils.firstLetter
 import javax.inject.Inject
 
@@ -69,6 +72,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings),
             lifecycleScope.launch {
                 appPreferences.clear()
             }
+            startActivity(Intent(requireContext(), OnBoardingActivity::class.java))
+            requireActivity().finish()
         }
     }
 

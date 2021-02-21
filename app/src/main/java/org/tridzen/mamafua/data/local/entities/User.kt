@@ -15,7 +15,7 @@ data class User(
     val longitude: Double?,
     val locationName: String?,
     val requesting: Boolean,
-    val orders: List<Order>,
+    val orders: List<String>,
     val phone: String?,
     val points: Int,
     val updatedAt: String,

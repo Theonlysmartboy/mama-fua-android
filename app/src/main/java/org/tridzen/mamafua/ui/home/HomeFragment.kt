@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.local.entities.User
 import org.tridzen.mamafua.databinding.FragmentHomeBinding
-import org.tridzen.mamafua.ui.home.launcher.post.OrderActivity
+import org.tridzen.mamafua.ui.home.order.OrderActivity
 import org.tridzen.mamafua.utils.firstLetter
 
 @AndroidEntryPoint

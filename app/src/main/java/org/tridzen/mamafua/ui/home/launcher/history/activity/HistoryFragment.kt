@@ -9,16 +9,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.local.entities.Order
-import org.tridzen.mamafua.databinding.FragmentPointsBinding
+import org.tridzen.mamafua.databinding.FragmentHistoryBinding
 import org.tridzen.mamafua.ui.home.HomeViewModel
-import org.tridzen.mamafua.ui.home.OnUserIdFound
-import org.tridzen.mamafua.ui.home.launcher.post.OrdersViewModel
+import org.tridzen.mamafua.ui.home.interfaces.OnUserIdFound
+import org.tridzen.mamafua.ui.home.order.OrdersViewModel
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.hideView
 import org.tridzen.mamafua.utils.runLayoutAnimation
 
 @AndroidEntryPoint
-class HistoryFragment : Fragment(R.layout.fragment_points),
+class HistoryFragment : Fragment(R.layout.fragment_history),
     OnUserIdFound {
 
     private val ordersViewModel by viewModels<OrdersViewModel>()
@@ -26,17 +26,27 @@ class HistoryFragment : Fragment(R.layout.fragment_points),
 
     private lateinit var historyAdapter: HistoryAdapter
     private val onUserIdFound: OnUserIdFound = this
+    private lateinit var id: String
 
-    private lateinit var binding: FragmentPointsBinding
+    private lateinit var binding: FragmentHistoryBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding = FragmentPointsBinding.bind(view)
+        binding = FragmentHistoryBinding.bind(view)
 
         Coroutines.main {
             homeViewModel.getLoggedInUser.await().observe(viewLifecycleOwner) {
-                onUserIdFound.userIdFound(it._id)
+                id = it._id
+                Coroutines.main {
+                    ordersViewModel.theOrders(it._id).observe(viewLifecycleOwner) { list ->
+                        hideView(
+                            binding.lavActivity,
+                            binding.mtvActivity,
+                            condition = list.isEmpty()
+                        )
+                        setUpRv(list)
+                    }
+                }
             }
         }
     }
@@ -55,13 +65,6 @@ class HistoryFragment : Fragment(R.layout.fragment_points),
     }
 
     override fun userIdFound(id: String) {
-        Coroutines.main {
-            viewLifecycleOwner.let {
-                ordersViewModel.theOrders(id).observe(it) { list ->
-                    hideView(binding.lavActivity, binding.mtvActivity, condition = list.isEmpty())
-                    setUpRv(list)
-                }
-            }
-        }
+
     }
 }

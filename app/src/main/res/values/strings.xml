@@ -82,7 +82,6 @@
     <string name="request_banner">Sending data via this form will set you up for a review by the team, after which you wil be required to avail yourself at one of our centers for an interview which may lead to a job. Please ensure the details are accurate. Thank you</string>
     <string name="received">Your request was received, await a call from our team.</string>
     <string name="clear">Clear</string>
-    <string name="phone_template">Click here to save number</string>
     <string name="have_code">Do you have a referral/promo code?</string>
     <string name="enter_code">Enter your code here</string>
     <string name="no">NO</string>
@@ -103,4 +102,7 @@
     <string name="results_in_estate">results in your estate</string>
     <string name="choose_estate">Please choose an estate to proceed</string>
     <string name="primary_number">Primary phone number</string>
+    <string name="delivery_fees">Delivery fees</string>
+    <string name="discount">Discount</string>
+    <string name="total">Total</string>
 </resources>

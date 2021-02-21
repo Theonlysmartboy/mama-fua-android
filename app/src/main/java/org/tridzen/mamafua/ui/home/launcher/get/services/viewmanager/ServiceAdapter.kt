@@ -1,10 +1,20 @@
 package org.tridzen.mamafua.ui.home.launcher.get.services.viewmanager
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.dialog_package.view.*
 import org.tridzen.mamafua.R
@@ -12,7 +22,7 @@ import org.tridzen.mamafua.data.local.entities.Cart
 import org.tridzen.mamafua.data.local.entities.Service
 import org.tridzen.mamafua.databinding.RowBouquetBinding
 import org.tridzen.mamafua.databinding.RowItemizedBinding
-import org.tridzen.mamafua.ui.home.launcher.post.prepare.cart.CartViewModel
+import org.tridzen.mamafua.ui.home.order.prepare.cart.CartViewModel
 import org.tridzen.mamafua.utils.Constants.Companion.BASE_URL
 
 class ServiceAdapter(
@@ -112,8 +122,14 @@ class ServiceAdapter(
                 deleteEntry(service, "Itemized", cartViewModel)
             }
 
-            Glide.with(binding.root).load("${BASE_URL}/${service.imageUrl}")
-                .into(binding.ivItem)
+//            Glide.with(binding.root).load("${BASE_URL}/${service.imageUrl}")
+//                .into(binding.ivItem)
+            glideAway(
+                "${BASE_URL}/${service.imageUrl}",
+                binding.ivItem,
+                binding.cdItem,
+                binding.root.context
+            )
         }
     }
 
@@ -167,13 +183,14 @@ class ServiceAdapter(
         }
     }
 
+
     companion object {
         fun insertEntry(service: Service, style: String, cartViewModel: CartViewModel) =
             cartViewModel.insertEntry(
                 Cart(
                     id = service._id,
                     service = service,
-                    style = style
+                    style = style,
                 )
             )
 
@@ -182,8 +199,48 @@ class ServiceAdapter(
                 Cart(
                     id = service._id,
                     service = service,
-                    style = style
+                    style = style,
                 )
             )
+
+        fun glideAway(image: String, imageView: ImageView, cardView: CardView, context: Context) =
+            Glide.with(context)
+                .asBitmap()
+                .load(image)
+                .listener(object : RequestListener<Bitmap?> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Bitmap?>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Bitmap?,
+                        model: Any?,
+                        target: Target<Bitmap?>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        if (resource != null) {
+                            val p: Palette = Palette.from(resource).generate()
+                            // Use generated instance
+                            val color = p.getMutedColor(
+                                ContextCompat.getColor(
+                                    context,
+                                    R.color.colorBlueMidnight
+                                )
+                            );
+
+                            cardView.setCardBackgroundColor(color)
+//                        view.clPayment.setBackgroundColor(color)
+
+                        }
+                        return false
+                    }
+                })
+                .into(imageView)
     }
 }

@@ -56,7 +56,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.tridzen.mamafua.ui.home.launcher.post.OrderActivity" />
+        <activity android:name="org.tridzen.mamafua.ui.home.order.OrderActivity" />
         <activity android:name="org.tridzen.mamafua.ui.home.launcher.get.GetActivity" />
         <activity android:name="org.tridzen.mamafua.ui.home.HomeActivity" />
         <activity
@@ -64,8 +64,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.onboarding.OnBoardingActivity" />
         <activity
-            android:name="org.tridzen.mamafua.ui.home.launcher.post.profiles.FinalActivity"
+            android:name="org.tridzen.mamafua.ui.home.order.profiles.FinalActivity"
             android:exported="true" />
-        <activity android:name=".ui.onboarding.IntroActivity" />
     </application>
 </manifest>

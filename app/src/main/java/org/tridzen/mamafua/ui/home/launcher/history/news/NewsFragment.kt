@@ -20,23 +20,20 @@ import org.tridzen.mamafua.utils.showSnackBar
 class NewsFragment : Fragment(R.layout.fragment_news) {
 
     private lateinit var newsAdapter: NewsAdapter
-    private val viewModel: NewsViewModel by viewModels()
+    private val viewModel by viewModels<NewsViewModel>()
     private lateinit var binding: FragmentNewsBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewsBinding.bind(view)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
         viewModel.characters.observe(viewLifecycleOwner, {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) setUpRv(it.data)
                 }
                 Resource.Status.ERROR ->
-                    it.message?.let { it1 -> view?.showSnackBar(it1) }
+                    it.message?.let { it1 -> view.showSnackBar(it1) }
 
                 Resource.Status.LOADING -> {
                     hideView(binding.lavActivity, binding.mtvActivity, condition = true)
@@ -48,7 +45,7 @@ class NewsFragment : Fragment(R.layout.fragment_news) {
     private fun setUpRv(list: List<News>) {
         newsAdapter = NewsAdapter()
         newsAdapter.submitList(list)
-        hideView(binding.lavActivity, binding.mtvActivity, condition = list.isEmpty())
+//        hideView(binding.lavActivity, binding.mtvActivity, condition = list.isEmpty())
         rvNews.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = newsAdapter

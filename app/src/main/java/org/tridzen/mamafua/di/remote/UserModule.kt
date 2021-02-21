@@ -11,7 +11,6 @@ import org.tridzen.mamafua.data.remote.network.current.apis.RequestsApi
 import org.tridzen.mamafua.data.remote.network.current.apis.UserApi
 import org.tridzen.mamafua.data.remote.repository.JobRepository
 import org.tridzen.mamafua.data.remote.repository.UserRepository
-import org.tridzen.mamafua.utils.data.Prefs
 import javax.inject.Singleton
 
 @Module
@@ -44,7 +43,7 @@ object UserModule {
     fun provideUserRepository(
         authApi: UserApi,
         appDatabase: AppDatabase,
-        userPreferences: Prefs
+        userPreferences: AppPreferences
     ): UserRepository {
         return UserRepository(authApi, appDatabase, userPreferences)
     }

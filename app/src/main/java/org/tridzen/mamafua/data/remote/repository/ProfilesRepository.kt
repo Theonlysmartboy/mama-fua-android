@@ -10,7 +10,10 @@ class ProfilesRepository(
 ) : BaseRepository() {
 
     suspend fun getProfilesByCenter(id: String) = safeApiCall { api.getProfilesByCenter(id) }
-    fun saveProfile(profile: Profile) {
+
+    suspend fun saveProfile(profile: Profile) {
         db.getProfilesDao().saveProfile(profile)
     }
+
+    fun getProfile() = db.getProfilesDao().getProfile()
 }

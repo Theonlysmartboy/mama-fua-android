@@ -7,6 +7,6 @@ import retrofit2.http.POST
 
 interface PurchaseApi {
 
-    @POST("pay/pay")
-    suspend fun makePayment(@Body orders: Order): PaymentResponse
+    @POST("pay/")
+    suspend fun makePayment(@Body orders: Order.Post): PaymentResponse
 }

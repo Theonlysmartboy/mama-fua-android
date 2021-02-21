@@ -3,21 +3,42 @@ package org.tridzen.mamafua.data.local.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+const val CURRENT_PROFILE_ID = 0
+
 @Entity
 data class Profile(
-    @PrimaryKey
-    val _id: String,
-    val available: Boolean,
-    val centerId: String,
-    val email: String,
-    val firstName: String,
-    val imageUrl: String,
-    val jobs: List<String>,
-    val lastName: String,
-    val rating: Float,
-    val latitude: Double,
-    val longitude: Double,
-    val password: String,
-    val phone: String,
-    val status: String
-)
+    var _id: String,
+    var available: Boolean,
+    var centerId: String,
+    var email: String,
+    var firstName: String,
+    var imageUrl: String,
+    var jobs: List<String>,
+    var lastName: String,
+    var rating: Float,
+    var latitude: Double,
+    var longitude: Double,
+    var password: String,
+    var phone: String,
+    var status: String
+) {
+    @PrimaryKey(autoGenerate = false)
+    var uid: Int = CURRENT_PROFILE_ID
+
+    constructor() : this(
+        "",
+        false,
+        "",
+        "",
+        "",
+        "",
+        emptyList(),
+        lastName = "",
+        0f,
+        0.0,
+        0.0,
+        password = "",
+        phone = "",
+        status = ""
+    )
+}

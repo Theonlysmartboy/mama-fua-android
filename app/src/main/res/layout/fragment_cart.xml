@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.launcher.post.prepare.cart.CartFragment">
+    tools:context=".ui.home.order.prepare.cart.CartFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavEmptyCart"
@@ -45,11 +45,22 @@
         app:useCompatPadding="true" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvParams"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        tools:itemCount="4"
+        tools:listitem="@layout/row_i"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rvParams"
         tools:itemCount="4"
         tools:listitem="@layout/row_i" />
 </androidx.constraintlayout.widget.ConstraintLayout>

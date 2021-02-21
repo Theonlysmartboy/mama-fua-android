@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
@@ -11,16 +12,16 @@ import org.tridzen.mamafua.data.local.AppDatabase
 import org.tridzen.mamafua.data.local.entities.Login
 import org.tridzen.mamafua.data.local.entities.SignUp
 import org.tridzen.mamafua.data.local.entities.User
+import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.data.remote.network.current.Resource
 import org.tridzen.mamafua.data.remote.network.current.apis.UserApi
 import org.tridzen.mamafua.utils.Constants
 import org.tridzen.mamafua.utils.coroutines.Coroutines
-import org.tridzen.mamafua.utils.data.Prefs
 
 class UserRepository(
     private val api: UserApi,
     private val db: AppDatabase,
-    private val prefs: Prefs
+    private val prefs: AppPreferences
 ) : BaseRepository() {
 
     private val _user: MutableLiveData<User> = MutableLiveData<User>()
@@ -33,19 +34,13 @@ class UserRepository(
     }
 
     fun saveUser(user: User) = Coroutines.io {
-        prefs.setString(Prefs.USER_SAVED_AT, LocalDateTime.now().toString())
+        prefs.saveValue(LocalDateTime.now().toString(), AppPreferences.USER_SAVED_AT)
         db.getUserDao().upsert(user)
     }
 
-    suspend fun <T> updateUser(
-        update: T, userId: String
-    ) = safeApiCall {
-        api.updateUser(userId, update)
-    }
-
-    suspend fun fetchUser(): LiveData<User> {
-        val lastSavedAt = prefs.getString(Prefs.USER_SAVED_AT)
-        if ((lastSavedAt.isEmpty()) || isFetchNeeded(LocalDateTime.parse(lastSavedAt))) {
+    private suspend fun fetchUser(): LiveData<User> {
+        val lastSavedAt = prefs.getValue(AppPreferences.USER_SAVED_AT).first()
+        if (lastSavedAt == null || isFetchNeeded(LocalDateTime.parse(lastSavedAt))) {
             try {
                 when (val response = safeApiCall { api.getUser() }) {
                     is Resource.Loading -> {
@@ -83,8 +78,8 @@ class UserRepository(
         api.register(user)
     }
 
-    fun saveAuthToken(token: String) {
-        prefs.setString(Prefs.KEY_AUTH, token)
+    suspend fun saveAuthToken(token: String) {
+        prefs.saveValue(token, AppPreferences.KEY_AUTH)
     }
 
     private fun isFetchNeeded(savedAt: LocalDateTime): Boolean {

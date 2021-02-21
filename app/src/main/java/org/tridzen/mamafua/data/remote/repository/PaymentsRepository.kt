@@ -1,6 +1,5 @@
 package org.tridzen.mamafua.data.remote.repository
 
-import org.json.JSONObject
 import org.tridzen.mamafua.data.local.AppDatabase
 import org.tridzen.mamafua.data.local.entities.Order
 import org.tridzen.mamafua.data.local.entities.Payment
@@ -19,9 +18,7 @@ class PaymentsRepository(private val db: AppDatabase, private val api: PurchaseA
         db.getPaymentsDao().editMode(number, name, id)
     }
 
-    suspend fun makePayment(order: Order) {
-        val body = JSONObject()
-        body.put("number", "254729226824")
+    suspend fun makePayment(order: Order.Post) {
         safeApiCall { api.makePayment(order) }
     }
 }

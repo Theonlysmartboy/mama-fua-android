@@ -30,16 +30,8 @@ class HomeViewModel @Inject constructor(
 
     val user = repository.user
 
-    val freshUser by lazyDeferred {
-        repository.fetchUser()
-    }
-
     fun saveUser(user: User) = viewModelScope.launch {
         repository.saveUser(user)
-    }
-
-    fun <T> updateUser(userId: String, update: T) = viewModelScope.launch {
-        repository.updateUser(update, userId)
     }
 
     fun login(
@@ -57,6 +49,8 @@ class HomeViewModel @Inject constructor(
     }
 
     fun saveAuthToken(token: String) {
-        repository.saveAuthToken(token)
+        viewModelScope.launch {
+            repository.saveAuthToken(token)
+        }
     }
 }

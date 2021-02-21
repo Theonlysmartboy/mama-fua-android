@@ -16,7 +16,7 @@ import org.tridzen.mamafua.data.local.entities.Job
 import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.data.remote.AppPreferences.Companion.REQUEST_SENT
 import org.tridzen.mamafua.ui.home.HomeViewModel
-import org.tridzen.mamafua.ui.home.OnUserIdFound
+import org.tridzen.mamafua.ui.home.interfaces.OnUserIdFound
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.showSnackBar
 import javax.inject.Inject

@@ -13,15 +13,17 @@ import org.tridzen.mamafua.ui.home.launcher.history.news.NewsFragment
 @AndroidEntryPoint
 class LoyaltyActivity : AppCompatActivity() {
 
-    private val fragments = arrayOf(HistoryFragment() as Fragment, NewsFragment() as Fragment)
-    private val titles = arrayOf("Activity", "News")
+    private lateinit var fragments: Array<Fragment>
+    private lateinit var titles: Array<String>
     private lateinit var binding: ActivityLoyaltyBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoyaltyBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
+
+        fragments = arrayOf(HistoryFragment() as Fragment, NewsFragment() as Fragment)
+        titles = arrayOf("Activity", "News")
 
         binding.vpLoyalty.adapter = ViewPagerAdapter(this, titles, fragments)
         TabLayoutMediator(binding.tabLayout, binding.vpLoyalty) { tab, position ->

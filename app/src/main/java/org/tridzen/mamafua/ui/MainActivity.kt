@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.ui.auth.AuthActivity
 import org.tridzen.mamafua.ui.onboarding.OnBoardingActivity
@@ -20,16 +21,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        prefs.getValue(AppPreferences.IS_FIRST_TIME_LAUNCH).asLiveData().observe(this) {
-//            val activity =
-//                if (it == null || !it) OnBoardingActivity::class.java else AuthActivity::class.java
-//            startNewActivity(activity)
-//        }
+        setContentView(R.layout.activity_main)
 
         Coroutines.main {
-            preferences.getValue(AppPreferences.IS_FIRST_TIME_LAUNCH).collect {
+            preferences.getValue(AppPreferences.SHOW_ONBOARDING).collect {
                 val activity =
-                    if (it == null || !it) OnBoardingActivity::class.java else AuthActivity::class.java
+                    if (it == null) OnBoardingActivity::class.java else AuthActivity::class.java
 
                 startNewActivity(activity)
             }

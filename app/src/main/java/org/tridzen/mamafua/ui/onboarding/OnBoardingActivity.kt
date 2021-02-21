@@ -1,5 +1,6 @@
 package org.tridzen.mamafua.ui.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +11,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_onboarding.*
 import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.remote.AppPreferences
-import org.tridzen.mamafua.data.remote.AppPreferences.Companion.IS_FIRST_TIME_LAUNCH
+import org.tridzen.mamafua.data.remote.AppPreferences.Companion.SHOW_ONBOARDING
+import org.tridzen.mamafua.ui.auth.AuthActivity
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.hide
 import org.tridzen.mamafua.utils.show
@@ -115,9 +117,9 @@ class OnBoardingActivity : AppCompatActivity() {
 
     private fun navigateToLogin() {
         Coroutines.main {
-            prefs.saveValue(true, IS_FIRST_TIME_LAUNCH)
+            prefs.saveValue(false, SHOW_ONBOARDING)
         }
-//        startActivity(Intent(this, AuthActivity::class.java))
+        startActivity(Intent(this, AuthActivity::class.java))
         finish()
     }
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="2dp"
-    tools:context=".ui.home.launcher.post.pay.checkout.CheckoutFragment">
+    tools:context=".ui.home.order.prepare.checkout.CheckoutFragment">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavNoPayment"

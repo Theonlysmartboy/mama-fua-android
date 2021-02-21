@@ -4,40 +4,29 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import org.tridzen.mamafua.R
+import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.ui.home.HomeActivity
-import org.tridzen.mamafua.utils.data.Prefs
+import org.tridzen.mamafua.utils.coroutines.Coroutines
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AuthActivity : AppCompatActivity(){
+class AuthActivity : AppCompatActivity() {
 
-    @Inject lateinit var prefs: Prefs
+    @Inject
+    lateinit var preferences: AppPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-//        prefs.getValue(AppPreferences.KEY_AUTH).asLiveData().observe(this) {
-//            if (it != null) {
-//                startActivity(Intent(this, HomeActivity::class.java))
-//                finish()
-//            }
-//        }
-
-//        Coroutines.main {
-//            prefs.getValue(AppPreferences.KEY_AUTH).collect {
-//                if (it != null) {
-//                    startActivity(Intent(this, HomeActivity::class.java))
-//                    finish()
-//                }
-//            }
-//        }
-
-        val auth = prefs.getString(Prefs.KEY_AUTH)
-        if (auth.isNotEmpty()) {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+        Coroutines.main {
+            val authKey = preferences.getValue(AppPreferences.KEY_AUTH).first()
+            if (!authKey.isNullOrBlank()) {
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
+            }
         }
     }
 }

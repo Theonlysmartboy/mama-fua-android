@@ -1,7 +1,10 @@
 package org.tridzen.mamafua.data.local.daos
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import org.tridzen.mamafua.data.local.entities.Cart
 
 @Dao
@@ -13,8 +16,8 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCart(cart: List<Cart>)
 
-    @Delete
-    suspend fun removeEntry(cart: Cart)
+    @Query("DELETE from cart where id = :id")
+    suspend fun removeEntry(id: String)
 
     @Query("UPDATE cart SET count=:count WHERE id = :id")
     suspend fun updateEntry(count: Int, id: String)

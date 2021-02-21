@@ -14,12 +14,12 @@ import org.tridzen.mamafua.data.local.entities.Service
 import org.tridzen.mamafua.databinding.FragmentDeliveryBinding
 import org.tridzen.mamafua.ui.home.launcher.get.services.viewmanager.ServiceAdapter
 import org.tridzen.mamafua.ui.home.launcher.get.services.viewmodels.ServicesViewModel
-import org.tridzen.mamafua.ui.home.launcher.post.prepare.cart.CartViewModel
+import org.tridzen.mamafua.ui.home.order.prepare.cart.CartViewModel
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.visible
 
 @AndroidEntryPoint
-class DeliveryFragment : Fragment(R.layout.fragment_itemized), View.OnClickListener {
+class DeliveryFragment : Fragment(R.layout.fragment_delivery), View.OnClickListener {
 
     private val servicesViewModel by viewModels<ServicesViewModel>()
     private val cartViewModel by viewModels<CartViewModel>()
@@ -34,7 +34,7 @@ class DeliveryFragment : Fragment(R.layout.fragment_itemized), View.OnClickListe
         binding.lavItemized.visible(false)
 
         img = ContextCompat.getDrawable(requireContext(), R.drawable.ic_current)
-//        setUpButtons()
+        setUpButtons()
 
         Coroutines.main {
             servicesViewModel.services.await().observe(viewLifecycleOwner, {
@@ -51,9 +51,9 @@ class DeliveryFragment : Fragment(R.layout.fragment_itemized), View.OnClickListe
     private fun initRecyclerView(items: List<Service>) {
         binding.rvResidential.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
-            servicesViewModel.washMode.observe(viewLifecycleOwner) { it ->
+            servicesViewModel.washMode.observe(viewLifecycleOwner) {
                 adapter = ServiceAdapter(items, "Delivery", it, cartViewModel)
-//                switchViews(it)
+                switchViews(it)
             }
         }
     }
@@ -68,43 +68,22 @@ class DeliveryFragment : Fragment(R.layout.fragment_itemized), View.OnClickListe
         servicesViewModel.switchWashMode()
     }
 
-    //    private fun setUpButtons() {
-//        fragmentDeliveryBinding!!.butMachine.setOnClickListener(this)
-//        fragmentDeliveryBinding!!.butManual.setOnClickListener(this)
-//    }
+    private fun setUpButtons() {
+        binding.materialButtonToggleGroupSort.isSingleSelection = true
+        binding.materialButtonToggleGroupSort.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            when (isChecked) {
+                true -> servicesViewModel.switchWashMode()
+            }
+        }
+    }
 
-//    private fun switchViews(selected: String) {
-//        when (selected) {
-//            "Machine" -> {
-//                fragmentDeliveryBinding!!.butMachine.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                    img,
-//                    null,
-//                    null,
-//                    null
-//                )
-//
-//                fragmentDeliveryBinding!!.butManual.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                    null,
-//                    null,
-//                    null,
-//                    null
-//                )
-//            }
-//
-//            "Manual" -> {
-//                fragmentDeliveryBinding!!.butMachine.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                    null,
-//                    null,
-//                    null,
-//                    null
-//                )
-//                fragmentDeliveryBinding!!.butManual.setCompoundDrawablesRelativeWithIntrinsicBounds(
-//                    img,
-//                    null,
-//                    null,
-//                    null
-//                )
-//            }
-//        }
-//    }
+    private fun switchViews(selected: String) {
+        when (selected) {
+            "Machine" -> {
+            }
+
+            "Manual" -> {
+            }
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.tridzen.mamafua.data.local.entities.*
+import org.tridzen.mamafua.ui.home.order.prepare.cart.CartFragment
 
 class Converters {
 
@@ -43,8 +44,8 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun makeProfileFromString(value: String): Profile {
-            val profileType = object : TypeToken<Profile>() {
+        fun makeCartXFromString(value: String): List<CartX> {
+            val profileType = object : TypeToken<List<CartX>>() {
 
             }.type
             return Gson().fromJson(value, profileType)
@@ -52,9 +53,9 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun makeStringFromProfile(profile: Profile): String {
+        fun makeStringFromCartX(cartX: List<CartX>): String {
             val gson = Gson()
-            return gson.toJson(profile)
+            return gson.toJson(cartX)
         }
 
         @TypeConverter
@@ -68,14 +69,14 @@ class Converters {
 
         @TypeConverter
         @JvmStatic
-        fun makeStringFromLatLng(user: LatLng): String {
+        fun makeStringFromLatLng(user: CartFragment.LatLng): String {
             val gson = Gson()
             return gson.toJson(user)
         }
 
         @TypeConverter
         @JvmStatic
-        fun makeLatLngFromString(value: String): LatLng {
+        fun makeLatLngFromString(value: String): CartFragment.LatLng {
             val profileType = object : TypeToken<LatLng>() {
 
             }.type
