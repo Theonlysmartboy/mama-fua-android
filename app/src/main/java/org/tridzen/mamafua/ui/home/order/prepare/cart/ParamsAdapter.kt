@@ -1,5 +1,6 @@
 package org.tridzen.mamafua.ui.home.order.prepare.cart
 
+import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.databinding.RowLBinding
 import org.tridzen.mamafua.databinding.RowPBinding
 import org.tridzen.mamafua.databinding.RowTBinding
+import org.tridzen.mamafua.ui.home.order.profiles.FinalActivity
 import org.tridzen.mamafua.utils.Constants
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.getLatLng
@@ -57,7 +59,9 @@ class ParamsAdapter(
                 (viewHolder as TimeViewHolder).bind()
             }
             getItemViewType(position) == mama -> {
-                (viewHolder as ProfileViewHolder).bind(getItem(position).profile)
+                (viewHolder as ProfileViewHolder).bind(
+                    getItem(position).profile
+                )
             }
             getItemViewType(position) == location -> {
                 (viewHolder as LocationViewHolder).bind()
@@ -86,6 +90,14 @@ class ParamsAdapter(
 
             view.cdTime.setOnClickListener {
 
+                val activity = FinalActivity()
+
+                view.root.context.startActivity(
+                    Intent(
+                        view.root.context,
+                        FinalActivity::class.java
+                    )
+                )
             }
         }
     }
@@ -99,7 +111,12 @@ class ParamsAdapter(
                 .into(view.ivProfile)
 
             view.clProfile.setOnClickListener {
-
+                view.root.context.startActivity(
+                    Intent(
+                        view.root.context,
+                        FinalActivity::class.java
+                    )
+                )
             }
         }
     }
@@ -121,7 +138,12 @@ class ParamsAdapter(
             }
 
             view.cdLocation.setOnClickListener {
-
+                view.root.context.startActivity(
+                    Intent(
+                        view.root.context,
+                        FinalActivity::class.java
+                    )
+                )
             }
         }
     }

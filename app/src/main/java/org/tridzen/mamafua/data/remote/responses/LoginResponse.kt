@@ -4,6 +4,7 @@ import org.tridzen.mamafua.data.local.entities.User
 
 data class LoginResponse(
     val message: String,
-    val token: String,
+    val authToken: String,
+    val refreshToken: String,
     val user: User
 )

@@ -9,9 +9,11 @@ import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.data.remote.network.current.RemoteDataSource
 import org.tridzen.mamafua.data.remote.network.current.apis.OrdersApi
 import org.tridzen.mamafua.data.remote.network.current.apis.PurchaseApi
+import org.tridzen.mamafua.data.remote.network.current.apis.ReferralsApi
 import org.tridzen.mamafua.data.remote.repository.CartRepository
 import org.tridzen.mamafua.data.remote.repository.OrdersRepository
 import org.tridzen.mamafua.data.remote.repository.PaymentsRepository
+import org.tridzen.mamafua.data.remote.repository.ReferralsRepository
 import javax.inject.Singleton
 
 @Module
@@ -42,6 +44,14 @@ object OrdersModule {
         return PaymentsRepository(appDatabase, api)
     }
 
+    @Provides
+    fun provideReferralsRepository(
+        api: ReferralsApi,
+        appDatabase: AppDatabase,
+    ): ReferralsRepository {
+        return ReferralsRepository(api)
+    }
+
     @Singleton
     @Provides
     fun provideOrdersApi(
@@ -56,5 +66,13 @@ object OrdersModule {
         remoteDataSource: RemoteDataSource,
     ): PurchaseApi {
         return remoteDataSource.buildApi(PurchaseApi::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideReferralsApi(
+        remoteDataSource: RemoteDataSource,
+    ): ReferralsApi {
+        return remoteDataSource.buildApi(ReferralsApi::class.java)
     }
 }

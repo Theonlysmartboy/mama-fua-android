@@ -34,7 +34,6 @@
         app:picker_stepSizeHours="1"
         app:picker_stepSizeMinutes="1"
         app:picker_textAlign="left"
-        app:picker_textColor="@color/colorWhite"
         app:picker_visibleItemCount="7" />
 
     <com.google.android.material.button.MaterialButton

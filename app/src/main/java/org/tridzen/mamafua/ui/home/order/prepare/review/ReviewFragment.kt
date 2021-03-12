@@ -8,16 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.dialog_referral.view.*
-import kotlinx.coroutines.flow.first
-import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.local.entities.Cart
-import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.databinding.FragmentReviewBinding
 import org.tridzen.mamafua.ui.home.order.prepare.cart.CartViewModel
-import org.tridzen.mamafua.utils.coroutines.Coroutines
 
 @AndroidEntryPoint
 class ReviewFragment : Fragment() {
@@ -39,11 +33,6 @@ class ReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Coroutines.main {
-            val show = AppPreferences(view.context).getValue(AppPreferences.SHOW_REFERRALS).first()
-            if (show == true) showBottomDialog()
-        }
-
         viewModel.cart.observe(viewLifecycleOwner, {
             if (it != null) {
                 setUpRv(it)
@@ -64,26 +53,6 @@ class ReviewFragment : Fragment() {
             adapter = reviewAdapter
         }
     }
-
-    private fun showBottomDialog() {
-        val sheet = layoutInflater.inflate(R.layout.dialog_referral, null)
-        val dialog = BottomSheetDialog(this.requireActivity())
-        dialog.setContentView(sheet)
-        val cancel = sheet.butCancel
-        val apply = sheet.butApply
-        val code = sheet.tetReferral.text.toString()
-
-        cancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        apply.setOnClickListener {
-
-        }
-
-        dialog.show()
-    }
-
     private fun getPrice(cart: Cart): Int {
         return when (cart.style) {
             "Itemized" -> cart.service.offSitePrice

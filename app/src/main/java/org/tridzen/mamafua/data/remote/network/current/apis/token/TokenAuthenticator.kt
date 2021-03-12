@@ -26,11 +26,11 @@ class TokenAuthenticator @Inject constructor(
             when (val tokenResponse = getUpdatedToken()) {
                 is Resource.Success -> {
                     userPreferences.saveAccessTokens(
-                        tokenResponse.value.access_token!!,
-                        tokenResponse.value.refresh_token!!
+                        tokenResponse.value.authToken!!,
+                        tokenResponse.value.refreshToken!!
                     )
                     response.request.newBuilder()
-                        .header("Authorization", "Bearer ${tokenResponse.value.access_token}")
+                        .header("Authorization", "Bearer ${tokenResponse.value.authToken}")
                         .build()
                 }
                 else -> null

@@ -29,19 +29,16 @@
             app:tabRippleColor="@null">
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/tiCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cart" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/tiDeli"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/review" />
 
             <com.google.android.material.tabs.TabItem
-                android:id="@+id/tiPay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/payment" />
@@ -69,7 +66,6 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="2dp"
         android:text="@string/confirm"
-        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/butClear"
         app:layout_constraintStart_toStartOf="parent" />
@@ -82,7 +78,6 @@
         android:layout_marginStart="2dp"
         android:layout_marginEnd="12dp"
         android:text="@string/clear"
-        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/butConfirm" />

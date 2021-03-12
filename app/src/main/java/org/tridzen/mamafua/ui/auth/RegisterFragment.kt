@@ -39,7 +39,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             when (it) {
                 is Resource.Success -> {
                     Coroutines.main {
-                        viewModel.saveAuthToken(it.value.token)
+                        viewModel.saveAuthToken(it.value.authToken)
                         viewModel.saveUser(it.value.user)
                         requireActivity().startNewActivity(HomeActivity::class.java)
                         requireActivity().finish()

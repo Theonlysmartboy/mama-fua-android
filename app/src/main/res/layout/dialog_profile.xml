@@ -167,7 +167,6 @@
             android:background="@android:color/transparent"
             android:fontFamily="@font/poppins_light"
             android:text="@string/hail"
-            android:textColor="@android:color/holo_green_light"
             app:layout_constraintEnd_toStartOf="@id/butCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/vwTwo" />
@@ -188,7 +187,6 @@
             android:background="@android:color/transparent"
             android:fontFamily="@font/poppins_light"
             android:text="@string/cancel"
-            android:textColor="@android:color/holo_red_light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/butPick"
             app:layout_constraintTop_toBottomOf="@+id/vwTwo" />

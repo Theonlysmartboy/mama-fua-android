@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- To see how these attributes are used, please visit https://material.io/develop/android/theming/color/ -->
     <style name="Base.Theme.Sunflower" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -25,10 +25,10 @@
         <item name="colorAccent">@color/mamafua_green_700</item>
         <item name="colorSurface">@color/mamafua_gray_50</item>
         <item name="colorSecondary">@color/mamafua_yellow_500</item>
-        <item name="android:colorBackground">@color/mamafua_green_500</item>
+<!--        <item name="android:colorBackground">@color/mamafua_green_500</item>-->
         <item name="android:navigationBarColor">@color/mamafua_green_500</item>
 
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?android:attr/colorBackground</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

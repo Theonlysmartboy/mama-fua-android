@@ -234,7 +234,7 @@ class ServiceAdapter(
                                 )
                             );
 
-                            cardView.setCardBackgroundColor(color)
+//                            cardView.setCardBackgroundColor(color)
 //                        view.clPayment.setBackgroundColor(color)
 
                         }

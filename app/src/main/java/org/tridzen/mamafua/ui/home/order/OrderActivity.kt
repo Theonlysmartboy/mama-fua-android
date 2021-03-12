@@ -3,6 +3,7 @@ package org.tridzen.mamafua.ui.home.order
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -12,18 +13,30 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_order.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.local.entities.Payment
+import org.tridzen.mamafua.data.remote.AppPreferences
+import org.tridzen.mamafua.data.remote.AppPreferences.Companion.LATITUDE_PREFS
+import org.tridzen.mamafua.data.remote.AppPreferences.Companion.LONGITUDE_PREFS
+import org.tridzen.mamafua.data.remote.AppPreferences.Companion.TIME_PREFS
+import org.tridzen.mamafua.databinding.ActivityOrderBinding
 import org.tridzen.mamafua.ui.home.interfaces.OnPaymentListener
 import org.tridzen.mamafua.ui.home.order.prepare.cart.CartViewModel
 import org.tridzen.mamafua.ui.home.order.prepare.checkout.PaymentsViewModel
+import org.tridzen.mamafua.ui.home.order.profiles.FinalActivity
 import org.tridzen.mamafua.ui.home.order.profiles.viewmodels.ProfilesViewModel
 import org.tridzen.mamafua.utils.Constants
+import org.tridzen.mamafua.utils.coroutines.Coroutines
 import org.tridzen.mamafua.utils.enable
 import org.tridzen.mamafua.utils.showMaterialDialog
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class OrderActivity : AppCompatActivity(), OnPaymentListener {
@@ -35,10 +48,15 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
 
     private lateinit var localBroadcastManager: LocalBroadcastManager
     private lateinit var navOptions: NavOptions
+    private lateinit var binding: ActivityOrderBinding
+
+    @Inject
+    lateinit var prefs: AppPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order)
+        binding = ActivityOrderBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         navController = Navigation.findNavController(this, R.id.fragment5)
 
@@ -48,7 +66,21 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
             .setPopUpTo(navController.graph.startDestination, false)
             .build()
 
-        tlOrder.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        Coroutines.main {
+            binding.butConfirm.enable(checkForParams()?.first != null)
+            binding.butConfirm.enable(checkForParams()?.second != null)
+            binding.butConfirm.enable(checkForParams()?.third != null)
+
+            showSnackBar(checkForParams()?.first == null)
+        }
+
+        paymentsViewModel.payments.observe(this) {
+            if (it.isEmpty())
+                binding.butConfirm.enable(false)
+            else binding.butConfirm.enable(true)
+        }
+
+        binding.tlOrder.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 changeTabText(tab!!.position)
 
@@ -72,26 +104,24 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
             R.id.cartFragment -> {
                 cartViewModel.cart.observe(this) {
                     if (it.isEmpty()) {
-                        butConfirm.enable(false)
-                        butClear.enable(false)
+                        binding.butConfirm.enable(false)
+                        binding.butClear.enable(false)
                     }
                 }
             }
 
             R.id.reviewFragment -> {
-                butConfirm.enable(false)
+                binding.butConfirm.enable(false)
             }
 
             R.id.checkoutFragment -> {
                 paymentsViewModel.payments.observe(this) {
-                    if (it.isEmpty()) {
-                        butConfirm.enable(false)
-                    }
+                    binding.butConfirm.enable(it.isNotEmpty())
                 }
             }
         }
 
-        butConfirm.setOnClickListener {
+        binding.butConfirm.setOnClickListener {
             when (navController.currentDestination?.id) {
                 R.id.cartFragment -> {
                     navController.navigate(
@@ -99,7 +129,7 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
                         null,
                         navOptions
                     )
-                    tlOrder.setScrollPosition(1, 0f, true)
+                    binding.tlOrder.setScrollPosition(1, 0f, true)
                 }
 
                 R.id.reviewFragment -> {
@@ -108,7 +138,7 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
                         null,
                         navOptions
                     )
-                    tlOrder.setScrollPosition(2, 0f, true)
+                    binding.tlOrder.setScrollPosition(2, 0f, true)
                 }
 
                 R.id.checkoutFragment -> {
@@ -129,7 +159,7 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
     }
 
     private fun changeTabText(position: Int) {
-        val tabLayout = (tlOrder.getChildAt(0) as ViewGroup).getChildAt(
+        val tabLayout = (binding.tlOrder.getChildAt(0) as ViewGroup).getChildAt(
             position
         ) as LinearLayout
         val tabTextView = tabLayout.getChildAt(1) as TextView
@@ -144,7 +174,7 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
                     null,
                     null
                 )
-                tlOrder.setScrollPosition(1, 0f, true)
+                binding.tlOrder.setScrollPosition(1, 0f, true)
                 true
             }
             else -> navController.navigateUp()
@@ -159,7 +189,7 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
                     null,
                     null
                 )
-                tlOrder.setScrollPosition(1, 0f, true)
+                binding.tlOrder.setScrollPosition(1, 0f, true)
             }
             R.id.reviewFragment -> {
                 navController.navigate(
@@ -167,7 +197,7 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
                     null,
                     null
                 )
-                tlOrder.setScrollPosition(0, 0f, true)
+                binding.tlOrder.setScrollPosition(0, 0f, true)
             }
             else -> finish()
         }
@@ -178,5 +208,26 @@ class OrderActivity : AppCompatActivity(), OnPaymentListener {
     }
 
     override fun editPayment(payment: Payment) {
+    }
+
+    private suspend fun checkForParams(): Triple<String?, Double?, Double?>? =
+        withContext(Dispatchers.Main) {
+            val time: String? = prefs.getValue(TIME_PREFS).first()
+            val lat: Double? = prefs.getValue(LATITUDE_PREFS).first()
+            val long: Double? = prefs.getValue(LONGITUDE_PREFS).first()
+
+            Log.d("Params", Triple(time, lat, long).toString())
+            if (time == null || lat == null || long == null) null else Triple(time, lat, long)
+        }
+
+
+    private fun showSnackBar(show: Boolean) {
+        val snackbar = Snackbar.make(
+            binding.root,
+            "You have not set time, location and service provider.",
+            Snackbar.LENGTH_SHORT
+        )
+        snackbar.setAction("SET") { startActivity(Intent(this, FinalActivity::class.java)) }
+        if (show) snackbar.show()
     }
 }

@@ -20,7 +20,6 @@ data class User(
     val points: Int,
     val updatedAt: String,
     val username: String,
-    val password: String
 ) {
     @PrimaryKey(autoGenerate = false)
     var uid: Int = CURRENT_USER_ID

@@ -17,34 +17,41 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_confirm.view.*
+import kotlinx.android.synthetic.main.dialog_confirm.view.butCancel
 import kotlinx.android.synthetic.main.dialog_payments.view.*
+import kotlinx.android.synthetic.main.dialog_payments.view.butApply
+import kotlinx.android.synthetic.main.dialog_referral.view.*
 import kotlinx.android.synthetic.main.fragment_checkout.*
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.first
 import org.tridzen.mamafua.R
 import org.tridzen.mamafua.data.local.entities.*
 import org.tridzen.mamafua.data.remote.AppPreferences
 import org.tridzen.mamafua.data.remote.AppPreferences.Companion.LATITUDE_PREFS
 import org.tridzen.mamafua.data.remote.AppPreferences.Companion.LONGITUDE_PREFS
 import org.tridzen.mamafua.data.remote.AppPreferences.Companion.TIME_PREFS
+import org.tridzen.mamafua.data.remote.network.current.Resource
 import org.tridzen.mamafua.databinding.DialogPaymentsBinding
 import org.tridzen.mamafua.databinding.FragmentCheckoutBinding
 import org.tridzen.mamafua.ui.home.HomeViewModel
+import org.tridzen.mamafua.ui.home.interfaces.OnDiscountHandler
 import org.tridzen.mamafua.ui.home.interfaces.OnPaymentListener
 import org.tridzen.mamafua.ui.home.order.prepare.cart.CartViewModel
+import org.tridzen.mamafua.ui.home.order.prepare.review.ReferralsViewModel
 import org.tridzen.mamafua.ui.home.order.profiles.viewmodels.ProfilesViewModel
 import org.tridzen.mamafua.utils.*
 import org.tridzen.mamafua.utils.coroutines.Coroutines
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class CheckoutFragment : Fragment(R.layout.fragment_checkout),
-    OnPaymentListener {
+    OnPaymentListener, OnDiscountHandler {
 
     private val paymentsViewModel by viewModels<PaymentsViewModel>()
     private val cartViewModel by viewModels<CartViewModel>()
     private val profilesViewModel by viewModels<ProfilesViewModel>()
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val referralsViewModel by viewModels<ReferralsViewModel>()
 
     private lateinit var binding: FragmentCheckoutBinding
 
@@ -52,14 +59,14 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
     private lateinit var newMode: Payment
     private lateinit var payment: Payment
 
+    private val onDiscountHandler: OnDiscountHandler = this
+
     @Inject
     lateinit var prefs: AppPreferences
 
     private val paymentReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.extras?.getBoolean("start") == true) {
-                publishOrder()
-            }
+            publishOrder()
         }
     }
 
@@ -67,6 +74,11 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentCheckoutBinding.bind(view)
+
+        Coroutines.main {
+            val show = AppPreferences(view.context).getValue(AppPreferences.SHOW_REFERRALS).first()
+            if (show == true) showBottomDialog()
+        }
 
         paymentsViewModel.payments.observe(viewLifecycleOwner) {
             lavNoPayment.visible(it.isEmpty())
@@ -132,6 +144,166 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
         })
     }
 
+    override fun deletePayment(payment: Payment) {
+        paymentsViewModel.deleteMode(payment.number)
+    }
+
+    override fun editPayment(payment: Payment) {
+        showBottomDialog({ payment1 ->
+            paymentsViewModel.editPayment(payment1.number, payment1.name, payment.id)
+        }, payment)
+    }
+
+    private fun publishOrder(discount: Int? = 0) {
+        val list = mutableListOf<Cart>()
+        var profile: Profile?
+        var user: User? = null
+        var total = 0
+        var lat = 0.0
+        var long = 0.0
+        var time = ""
+
+        cartViewModel.cart.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                list.addAll(it)
+            }
+
+            for (item in it) {
+                when (item.style) {
+                    "Itemized" -> total += (item.count * item.service.offSitePrice)
+                    "Package" -> total += (item.count * item.service.offSitePrice)
+                    "Machine" -> total += (item.count * item.service.machinePrice)
+                    "Delivery" -> total += (item.count * item.service.onSitePrice)
+                }
+            }
+        }
+
+        Coroutines.main {
+            homeViewModel.getLoggedInUser.await().observe(viewLifecycleOwner) {
+                user = it
+            }
+
+            prefs.getValue(TIME_PREFS).asLiveData().observe(viewLifecycleOwner) {
+                if (it != null) {
+                    time = it
+                }
+            }
+            prefs.getValue(LATITUDE_PREFS).asLiveData().observe(viewLifecycleOwner) {
+                if (it != null) {
+                    lat = it
+                }
+            }
+            prefs.getValue(LONGITUDE_PREFS).asLiveData().observe(viewLifecycleOwner) {
+                if (it != null) {
+                    long = it
+                }
+            }
+        }.invokeOnCompletion {
+            profilesViewModel.getProfile().observe(viewLifecycleOwner) {
+                Coroutines.main {
+                    profile = it
+                    Log.d("Profile", it.toString())
+                    var finalPrice = total
+
+                    discount?.let {
+                        finalPrice = total - discount
+                    }
+                    val order = Order.Post()
+                    val old = payment.number
+                    val new = old.replaceFirst("0", "254")
+
+                    prefs.getValue(TIME_PREFS).asLiveData().observe(viewLifecycleOwner) {
+                        if (it != null) {
+                            time = it
+                            Log.d("Time", it)
+                        }
+                    }
+
+                    order.apply {
+                        services = list.toPosts()
+                        amount = finalPrice
+                        center = it.centerId
+                        executionDate = time
+                        profileId = it._id
+                        profileName = getName(profile!!)
+                        longitude = long
+                        status = "Pending"
+                        latitude = lat
+                        paidVia = "Mpesa"
+                        phone = new
+                        placedBy = user?._id!!
+                    }
+                    Log.d("Order", order.toString())
+                    val dialog = requireContext().showMaterialDialog(
+                        "Pay via $new?",
+//                        order.toString(),
+                        "You will be presented with the lipa na mpesa dialog on your handset and you will be required to enter your pin. After the payment of $finalPrice Ksh is processed, your order will be sent to our servers and the provider you chose will start working on the order",
+                        buttonConfirm = "Accept",
+                        buttonCancel = "Cancel",
+                        showAnim = false,
+                        function = { paymentsViewModel.makePayment(order) }
+                    )
+                    dialog.cancelable(false)
+                    dialog.show()
+                }
+            }
+        }
+    }
+
+    private fun List<Cart>.toPosts(): List<CartX> {
+        return this.map {
+            CartX(
+                count = it.count,
+                name = it.service.name,
+                price = getPrice(it)
+            )
+        }
+    }
+
+    private fun getPrice(cart: Cart): Int = when (cart.style) {
+        "Itemised" -> cart.service.offSitePrice
+        "Package" -> cart.service.offSitePrice
+        "Machine" -> cart.service.onSitePrice
+        else -> cart.service.onSitePrice
+    }
+
+    private fun showBottomDialog() {
+        val sheet = layoutInflater.inflate(R.layout.dialog_referral, null)
+        val dialog = BottomSheetDialog(this.requireActivity())
+        dialog.setContentView(sheet)
+        val cancel = sheet.butCancel
+        val apply = sheet.butApply
+        val lottie = sheet.lavError
+
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        apply.setOnClickListener {
+            val code = sheet.tetReferral.text.toString()
+
+            referralsViewModel.getReferral(code).observe(viewLifecycleOwner) {
+                when (it) {
+                    is Resource.Failure -> {
+                        lottie.visible(true)
+                    }
+                    Resource.Loading -> {
+                        lottie.visible(true)
+                    }
+                    is Resource.Success -> {
+                        lottie.visible(false)
+                        val discount = it.value.referrals.discount
+                        onDiscountHandler.onDiscountFound(discount)
+                        view?.showSnackBar("Discount of ksh $discount has been applied successfully.")
+                        dialog.dismiss()
+                    }
+                }
+            }
+        }
+        dialog.show()
+    }
+
+
     private fun showBottomDialog(
         editFunction: ((payment: Payment) -> Job),
         payment: Payment? = null
@@ -196,117 +368,7 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
         dialog.show()
     }
 
-    override fun deletePayment(payment: Payment) {
-        paymentsViewModel.deleteMode(payment.number)
-    }
-
-    override fun editPayment(payment: Payment) {
-        showBottomDialog({ payment1 ->
-            paymentsViewModel.editPayment(payment1.number, payment1.name, payment.id)
-        }, payment)
-    }
-
-    private fun publishOrder() {
-        val list = mutableListOf<Cart>()
-        var profile: Profile? = null
-        var user: User? = null
-        var total = 0
-        var lat = 0.0
-        var long = 0.0
-        var time = ""
-
-        cartViewModel.cart.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                list.addAll(it)
-            }
-
-            for (item in it) {
-                when (item.style) {
-                    "Itemized" -> total += (item.count * item.service.offSitePrice)
-                    "Package" -> total += (item.count * item.service.offSitePrice)
-                    "Machine" -> total += (item.count * item.service.machinePrice)
-                    "Delivery" -> total += (item.count * item.service.onSitePrice)
-                }
-            }
-        }
-
-        Coroutines.main {
-            homeViewModel.getLoggedInUser.await().observe(viewLifecycleOwner) {
-                user = it
-            }
-
-            prefs.getValue(TIME_PREFS).asLiveData().observe(viewLifecycleOwner) {
-                if (it != null) {
-                    time = it
-                }
-            }
-            prefs.getValue(LATITUDE_PREFS).asLiveData().observe(viewLifecycleOwner) {
-                if (it != null) {
-                    lat = it
-                }
-            }
-            prefs.getValue(LONGITUDE_PREFS).asLiveData().observe(viewLifecycleOwner) {
-                if (it != null) {
-                    long = it
-                }
-            }
-        }.invokeOnCompletion {
-            profilesViewModel.getProfile().observe(viewLifecycleOwner) {
-                profile = it
-                Log.d("Profile", it.toString())
-
-                val order = Order.Post()
-                val old = payment.number
-                val new = old.replaceFirst("0", "254")
-
-                order.apply {
-                    services = list.toPosts()
-                    amount = total
-                    center = it.centerId
-                    executionDate = time
-                    profileId = it._id
-                    profileName = getName(profile!!)
-                    longitude = long
-                    status = "Pending"
-                    latitude = lat
-                    paidVia = "Mpesa"
-                    phone = new
-                    placedBy = user?._id!!
-                }
-
-                Log.d("Order", order.toString())
-                val dialog = requireContext().showMaterialDialog(
-                    "Pay via $new?",
-                    "You will be presented with the lipa na mpesa dialog on your handset and you will be required to enter your pin. After the payment of $total Ksh is processed, your order will be sent to our servers and the provider you chose will start working on the order",
-                    buttonConfirm = "Accept",
-                    buttonCancel = "Cancel",
-                    showAnim = false,
-                    function = { paymentsViewModel.makePayment(order) }
-                )
-                dialog.cancelable(false)
-                dialog.show()
-            }
-        }
-
-
-//        function = { paymentsViewModel.makePayment(order) }
-
-    }
-
-    private fun List<Cart>.toPosts(): List<CartX> {
-        return this.map {
-            CartX(
-                count = it.count,
-                name = it.service.name,
-                price = getPrice(it)
-            )
-        }
-    }
-
-    private fun getPrice(cart: Cart): Int = when (cart.style) {
-        "Itemised" -> cart.service.offSitePrice
-        "Package" -> cart.service.offSitePrice
-        "Machine" -> cart.service.onSitePrice
-        else -> cart.service.onSitePrice
+    override fun onDiscountFound(discount: Int) {
+        publishOrder(discount)
     }
 }

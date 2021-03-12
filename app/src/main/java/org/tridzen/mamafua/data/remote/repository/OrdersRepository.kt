@@ -1,10 +1,7 @@
 package org.tridzen.mamafua.data.remote.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.temporal.ChronoUnit
 import org.tridzen.mamafua.data.local.AppDatabase
@@ -31,8 +28,10 @@ class OrdersRepository(
                 is Resource.Success -> {
                     saveOrders(it.value.orders)
                 }
-                is Resource.Failure -> {}
-                Resource.Loading -> {}
+                is Resource.Failure -> {
+                }
+                Resource.Loading -> {
+                }
             }
         }
     }
@@ -50,11 +49,15 @@ class OrdersRepository(
         }
     }
 
-    suspend fun getOrders(id: String): LiveData<List<Order>> {
-        return withContext(Dispatchers.IO) {
-            fetchOrders(id)
-            db.getOrdersDao().getOrders()
-        }
+//    suspend fun getOrders(id: String): LiveData<List<Order>> {
+//        return withContext(Dispatchers.IO) {
+//            fetchOrders(id)
+//            db.getOrdersDao().getOrders()
+//        }
+//    }
+
+    suspend fun getOrders(id: String) = safeApiCall {
+        api.fetchItems(id)
     }
 
     private fun saveOrders(list: List<Order>) {

@@ -57,7 +57,6 @@ class LocationFragment : Fragment(), OnNavigateListener {
                 )
             )
         }
-        map.isMyLocationEnabled = true
     }
 
     override fun onCreateView(

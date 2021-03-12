@@ -14,24 +14,26 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- To see how these attributes are used, please visit https://material.io/develop/android/theming/color/ -->
     <style name="Base.Theme.Sunflower" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/mamafua_green_900</item>
         <item name="colorOnPrimary">@color/mamafua_yellow_300</item>
         <item name="colorPrimaryDark">@color/mamafua_gray_50_a600</item>
-        <item name="colorOnSurface">@color/mamafua_white</item>
+<!--        <item name="colorOnSurface">@color/mamafua_white</item>-->
+        <item name="colorOnSurface">#000000</item>
         <item name="colorAccent">@color/mamafua_green_300</item>
         <item name="colorSurface">@color/mamafua_green_900</item>
         <item name="colorSecondary">@color/mamafua_yellow_300</item>
-        <item name="android:colorBackground">@color/mamafua_green_900</item>
+        <!--        <item name="android:colorBackground">@color/mamafua_green_900</item>-->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:navigationBarColor">@color/mamafua_green_900</item>
 
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:statusBarColor" tools:targetApi="l">?android:attr/colorBackground</item>
 
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:textColor">#ffffff</item>
     </style>
 
     <style name="Theme.Sunflower" parent="Base.Theme.Sunflower" />

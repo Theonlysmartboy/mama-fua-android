@@ -37,7 +37,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             when (it) {
                 is Resource.Success -> {
                     Coroutines.main {
-                        viewModel.saveAuthToken(it.value.token)
+                        viewModel.saveAuthToken(it.value.authToken)
                         viewModel.saveUser(it.value.user)
                         requireActivity().startNewActivity(HomeActivity::class.java)
                         requireActivity().finish()

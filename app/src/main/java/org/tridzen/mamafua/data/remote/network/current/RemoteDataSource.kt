@@ -6,6 +6,7 @@ import org.tridzen.mamafua.BuildConfig
 import org.tridzen.mamafua.utils.Constants.Companion.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class RemoteDataSource {
 
@@ -18,6 +19,7 @@ class RemoteDataSource {
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor { chain ->
+                        chain.withConnectTimeout(10, TimeUnit.SECONDS)
                         chain.proceed(chain.request().newBuilder().also {
                             it.addHeader("Authorization", "Bearer $authToken")
                         }.build())

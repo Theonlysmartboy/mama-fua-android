@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_apply.*
 import org.tridzen.mamafua.R
@@ -27,7 +27,8 @@ class ApplyFragment : Fragment(R.layout.fragment_apply), OnUserIdFound {
     private val viewModel by viewModels<HomeViewModel>()
     private val jobViewModel by viewModels<JobViewModel>()
 
-    @Inject lateinit var appPreferences: AppPreferences
+    @Inject
+    lateinit var appPreferences: AppPreferences
     private var selectedImageUri: Uri? = null
     private var read: Boolean? = false
     private var onUserIdFound: OnUserIdFound = this
@@ -95,7 +96,7 @@ class ApplyFragment : Fragment(R.layout.fragment_apply), OnUserIdFound {
         }
     }
 
-    private fun getValues(): Job {
+    private fun getValues(id: String): Job {
         val firstName = etName.text.toString().trim()
         val lastName = etSecond.text.toString().trim()
         val number = etNumber.text.toString().trim()
@@ -116,24 +117,26 @@ class ApplyFragment : Fragment(R.layout.fragment_apply), OnUserIdFound {
         if (number.length < 10) {
             view?.showSnackBar("Invalid number entered?")
         }
-        return createJob(firstName, lastName, number, location)
+        return createJob(firstName, lastName, number, location, id)
     }
 
     private fun createJob(
         firstName: String,
         lastName: String,
         phone: String,
-        location: String
-    ): Job = Job(firstName, lastName, phone, location)
+        location: String,
+        id: String
+    ): Job = Job( id, firstName, lastName, phone, location)
 
     companion object {
         const val REQUEST_CODE_PICK_IMAGE = 101
     }
 
     override fun userIdFound(id: String) {
-        Log.d("UserId", "userIdFound: $id")
         jobViewModel.sendApplication(
-            getValues(), id
-        )
+            getValues(id)
+        ).invokeOnCompletion {
+            findNavController().navigateUp()
+        }
     }
 }
