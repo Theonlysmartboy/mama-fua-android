@@ -8,9 +8,9 @@ android {
     signingConfigs {
         release {
         storeFile file('C:\\Users\\Tridzen\\Documents\\mamafua.jks')
-            storePassword 'kamble98@#'
+            storePassword ''
             keyAlias 'key0'
-            keyPassword 'kamble98@#'
+            keyPassword ''
         }
     }
     compileSdkVersion 30
